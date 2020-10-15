@@ -22,7 +22,7 @@ class TURN_GAME_API UGI_Archive : public UGameInstance
 public:
 	//UI에서 출전 캐릭터 목록을 바꿀때 사용
 	UFUNCTION(BlueprintCallable, Category = "Generate")
-		void LoadModels(TArray<FString> CharName);
+	void LoadModels(TArray<FString> CharName);
 	//model이 Archive에 있는지 알아보고 있으면 optional변수에 담아서 반환.
 	TOptional<USkeletalMesh*> QueryModel(FString name);
 protected:
@@ -49,4 +49,5 @@ protected:
 	TMap<FString, USkeletalMesh*> ModelArchive;
 
 	TSharedPtr<FStreamableHandle> StreamHandle;
+
 };

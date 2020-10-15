@@ -7,6 +7,7 @@
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/DataTable.h"
+#include "Turn_GameGameModeBase.h"
 
 void UGI_Archive::LoadModels(TArray<FString> CharName)
 {
@@ -33,6 +34,10 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 		UE_LOG(LogTemp, Warning, L"Model Returned");
 		optional = ModelArchive[name];
 	}
+	else
+	{
+		LoadModels({ name });
+	}
 	return optional;
 }
 
@@ -58,7 +63,18 @@ void UGI_Archive::Init()
 {
 	Super::Init();
 	ConstructModelPath();
-	LoadModels(TArray<FString>{"Mia", "Eva"});
+
+	FTimerHandle WaitHandle;
+	GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
+	{
+		ATurn_GameGameModeBase* GameMode = Cast<ATurn_GameGameModeBase>(GetWorld()->GetAuthGameMode());
+		if (GameMode)
+		{
+			LoadModels(*GameMode->GetActiveChar());
+		}
+	}), 1.0f, false);
+
+	
 }
 
 
