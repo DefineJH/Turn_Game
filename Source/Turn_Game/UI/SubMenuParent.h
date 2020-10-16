@@ -4,16 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "PauseMenu.generated.h"
+#include "SubMenuParent.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TURN_GAME_API UPauseMenu : public UUserWidget
+class TURN_GAME_API USubMenuParent : public UUserWidget
 {
 	GENERATED_BODY()
-public:
-
-private:
+	
 };
