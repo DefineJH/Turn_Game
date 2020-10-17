@@ -4,6 +4,7 @@
 #include "Misc/Optional.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/DataTable.h"
+#include "Custom/CustomStruct.h"
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "GI_Archive.generated.h"
@@ -25,6 +26,8 @@ public:
 	void LoadModels(TArray<FString> CharName);
 	//model이 Archive에 있는지 알아보고 있으면 optional변수에 담아서 반환.
 	TOptional<USkeletalMesh*> QueryModel(FString name);
+	//파티 UI 구성하기 위해 캐릭터의 정보 전송하는 메서드
+	TArray<FCharInfo> GetCharInfo() const;
 protected:
 	//ModelPath_DT를 토대로 모든 모델의 stringpath를 설정
 	void ConstructModelPath();
@@ -48,6 +51,9 @@ protected:
 	//모델의 이름과 스켈레탈 메쉬 포인터를담고있는 map container
 	TMap<FString, USkeletalMesh*> ModelArchive;
 
+	TArray<FCharInfo> CharInfo;
+
+private:
 	TSharedPtr<FStreamableHandle> StreamHandle;
 
 };

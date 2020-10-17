@@ -112,3 +112,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Path;
 };
+
+USTRUCT(Atomic, BlueprintType)
+struct FCharInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsInParty;
+};

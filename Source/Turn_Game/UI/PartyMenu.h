@@ -15,3 +15,4 @@ class TURN_GAME_API UPartyMenu : public UWidgetBlueprint
 	GENERATED_BODY()
 	
 };
+//삭제예정

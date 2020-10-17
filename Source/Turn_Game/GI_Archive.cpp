@@ -41,6 +41,11 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 	return optional;
 }
 
+TArray<FCharInfo> UGI_Archive::GetCharInfo() const
+{
+	return CharInfo;
+}
+
 void UGI_Archive::ConstructModelPath()
 {
 	if (ModelPath_DT)
@@ -74,7 +79,9 @@ void UGI_Archive::Init()
 		}
 	}), 1.0f, false);
 
-	
+	CharInfo.Add({ "Mia",false });
+	CharInfo.Add({ "Louis",false });
+	CharInfo.Add({ "Eva",false });
 }
 
 
