@@ -13,7 +13,5 @@ UCLASS()
 class TURN_GAME_API UPauseMenu : public UUserWidget
 {
 	GENERATED_BODY()
-public:
-
-private:
+	
 };
