@@ -3,17 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "PauseMenu.generated.h"
+#include "UI/SubMenuParent.h"
+#include "SubMenuParty.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TURN_GAME_API UPauseMenu : public UUserWidget
+class TURN_GAME_API USubMenuParty : public USubMenuParent
 {
 	GENERATED_BODY()
-public:
-
-private:
+	
 };
