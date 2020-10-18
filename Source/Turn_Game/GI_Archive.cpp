@@ -6,6 +6,7 @@
 #include "Misc/Optional.h"
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
+#include "Engine/Texture2D.h"
 #include "Engine/DataTable.h"
 #include "Turn_GameGameModeBase.h"
 
@@ -111,3 +112,10 @@ void UGI_Archive::OnLoadCompleted()
 
 }
 
+UTexture2D* UGI_Archive::GetTextureFromName(FString& name) const
+{
+	if (UICharImgArchive.Contains(name))
+		return UICharImgArchive[name];
+	else
+		return nullptr;
+}

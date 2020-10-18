@@ -18,9 +18,6 @@ UCLASS()
 class TURN_GAME_API UPauseMenu : public UUserWidget
 {
 	GENERATED_BODY()
-<<<<<<< Updated upstream
-	
-=======
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widget")
 	TSubclassOf<USubMenuParent> PartyMenuClass;
@@ -30,5 +27,4 @@ protected:
 	//파티메뉴 생성후 불러온다
 	UFUNCTION(BlueprintCallable)
 	void ViewPartyMenu();
->>>>>>> Stashed changes
 };

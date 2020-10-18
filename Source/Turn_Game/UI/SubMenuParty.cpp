@@ -5,7 +5,8 @@
 #include "Components/VerticalBox.h"
 #include "Components/TextBlock.h"
 #include "Components/PanelSlot.h"
-#include "Components/VerticalBoxSlot.h"
+#include "Components/VerticalBoxSlot.h" 
+#include "Components/Image.h"
 #include "Blueprint/WidgetTree.h"
 #include "../Custom/CustomStruct.h"
 #include "../GI_Archive.h"
@@ -36,6 +37,11 @@ void USubMenuParty::ConstructSubWidget()
 			UUserWidget* SingleChar = CreateWidget<UUserWidget>(this, CharDisplayWidget);
 			if (SingleChar)
 			{
+				UTexture2D* tex = Archive->GetTextureFromName(info.Name);
+				if (tex)
+				{
+					Cast<UImage>(SingleChar->GetWidgetFromName(L"CharImage"))->SetBrushFromTexture(tex);
+				}
 				//±◊≥… ¿Ã∏ß∏∏ πŸ≤„¡‹
 				Cast<UTextBlock>(SingleChar->GetWidgetFromName(L"Name"))->SetText(FText::FromString(*info.Name));
 				CharLayoutBox->AddChildToVerticalBox(SingleChar);

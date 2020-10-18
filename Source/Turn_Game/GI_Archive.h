@@ -15,7 +15,7 @@
 
 class USkeletalMesh;
 class UDataTable;
-
+class UTexture2D;
 UCLASS()
 class TURN_GAME_API UGI_Archive : public UGameInstance
 {
@@ -28,6 +28,8 @@ public:
 	TOptional<USkeletalMesh*> QueryModel(FString name);
 	//파티 UI 구성하기 위해 캐릭터의 정보 전송하는 메서드
 	TArray<FCharInfo> GetCharInfo() const;
+
+	UTexture2D* GetTextureFromName(FString& name) const;
 protected:
 	//ModelPath_DT를 토대로 모든 모델의 stringpath를 설정
 	void ConstructModelPath();
@@ -48,6 +50,9 @@ protected:
 	//모델의 이름과 path를 담고있는 map container
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TMap<FString, FStringAssetReference> PathArchive;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	TMap<FString, UTexture2D*> UICharImgArchive;
 	//모델의 이름과 스켈레탈 메쉬 포인터를담고있는 map container
 	TMap<FString, USkeletalMesh*> ModelArchive;
 
