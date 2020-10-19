@@ -7,6 +7,7 @@
 #include "Components/PanelSlot.h"
 #include "Components/VerticalBoxSlot.h" 
 #include "Components/Image.h"
+#include "PaperSprite.h"
 #include "Blueprint/WidgetTree.h"
 #include "../Custom/CustomStruct.h"
 #include "../GI_Archive.h"
@@ -48,6 +49,7 @@ void USubMenuParty::ConstructSubWidget()
 				if (sprite)
 				{
 					UImage* tempImg = Cast<UImage>(SingleChar->GetWidgetFromName(L"Elemental"));
+					tempImg->SetBrushFromAtlasInterface(sprite->GetSlateAtlasData());
 				}
 				//±◊≥… ¿Ã∏ß∏∏ πŸ≤„¡‹
 				Cast<UTextBlock>(SingleChar->GetWidgetFromName(L"Name"))->SetText(FText::FromString(*info.Name));
