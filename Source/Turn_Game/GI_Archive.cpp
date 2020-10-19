@@ -2,11 +2,14 @@
 
 
 #include "GI_Archive.h"
+#include "GameSaver.h"
 #include "Custom/CustomStruct.h"
+#include "Kismet/GameplayStatics.h"
 #include "Misc/Optional.h"
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/Texture2D.h"
+#include "PaperSprite.h"
 #include "Engine/DataTable.h"
 #include "Turn_GameGameModeBase.h"
 
@@ -22,7 +25,7 @@ void UGI_Archive::LoadModels(TArray<FString> CharName)
 			toStream.AddUnique(PathArchive[name]);
 		}
 	}
-	StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnLoadCompleted));
+	StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnMeshLoadCompleted));
 }
 
 //TOptional<TSharedPtr<USkeletalMesh>> UGI_Archive::QueryModel(FString name)
@@ -44,7 +47,15 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 
 TArray<FCharInfo> UGI_Archive::GetCharInfo() const
 {
-	return CharInfo;
+	TArray<FCharInfo> tempInfo;
+	tempInfo.Reserve(8);
+
+	for (auto& tmp : CurCharInfo)
+	{
+		if (tmp.Value.bIsInParty)
+			tempInfo.Add(tmp.Value);
+	}
+	return tempInfo;
 }
 
 void UGI_Archive::ConstructModelPath()
@@ -69,6 +80,9 @@ void UGI_Archive::Init()
 {
 	Super::Init();
 	ConstructModelPath();
+	ConstructDefaultCharData();
+
+	LoadModels(CurActiveChar);
 
 	FTimerHandle WaitHandle;
 	GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
@@ -76,17 +90,13 @@ void UGI_Archive::Init()
 		ATurn_GameGameModeBase* GameMode = Cast<ATurn_GameGameModeBase>(GetWorld()->GetAuthGameMode());
 		if (GameMode)
 		{
-			LoadModels(*GameMode->GetActiveChar());
 		}
 	}), 1.0f, false);
 
-	CharInfo.Add({ "Mia",false });
-	CharInfo.Add({ "Louis",false });
-	CharInfo.Add({ "Eva",false });
 }
 
 
-void UGI_Archive::OnLoadCompleted()
+void UGI_Archive::OnMeshLoadCompleted()
 {
 	bIsLoadCompleted = true;
 
@@ -109,13 +119,81 @@ void UGI_Archive::OnLoadCompleted()
 	}
 
 	StreamHandle.Get()->ReleaseHandle();
-
 }
 
-UTexture2D* UGI_Archive::GetTextureFromName(FString& name) const
+
+UTexture2D* UGI_Archive::GetTextureFromName(FString name) const
 {
 	if (UICharImgArchive.Contains(name))
 		return UICharImgArchive[name];
 	else
 		return nullptr;
+}
+
+UPaperSprite* UGI_Archive::GetSpriteFromName(FString name) const
+{
+	if (UISpriteArchive.Contains(name))
+		return UISpriteArchive[name];
+	else
+		return nullptr;
+}
+
+bool UGI_Archive::HasSaveData(int idx)
+{
+	if (UGameplayStatics::DoesSaveGameExist(L"Default", idx))
+		return true;
+	else
+		return false;
+}
+
+void UGI_Archive::ConstructDefaultCharData()
+{
+	CurActiveChar = { "Mia" , "Louis", "Eva" };
+	if (DefaultCharData_DT)
+	{
+		auto rownames = DefaultCharData_DT->GetRowNames();
+		auto rowStruct = DefaultCharData_DT->GetRowStruct();
+		for (auto& name : rownames)
+		{
+			FCharInfo* temp = DefaultCharData_DT->FindRow<FCharInfo>(name, "");
+			if (temp)
+			{
+				CurCharInfo.Add(temp->Name, *temp);
+			}
+		}
+
+	}
+}
+
+bool UGI_Archive::SaveCurrentData(int idx)
+{
+	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
+	SaveInst->SaveSlotName = L"Default";
+	SaveInst->SaveIndex = idx;
+
+	SaveInst->ActiveChar = CurActiveChar;
+	for (auto& tmp : CurCharInfo)
+	{
+		SaveInst->CharInfos.Add(tmp.Value);
+	}
+	if (UGameplayStatics::SaveGameToSlot(SaveInst, SaveInst->SaveSlotName, SaveInst->SaveIndex))
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
+{
+	const UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *StrEnumClass, true);
+	if (!enumPtr)
+		return "Invalid";
+	else
+	{
+		FString temp = enumPtr->GetNameStringByValue(Value);
+		FString last;
+		temp.Split("_", nullptr, &last);
+		return last;
+	}
 }

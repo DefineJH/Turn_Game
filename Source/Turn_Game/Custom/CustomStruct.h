@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine/DataTable.h"
+#include "CusomEnum.h"
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "CustomStruct.generated.h"
@@ -114,12 +115,32 @@ public:
 };
 
 USTRUCT(Atomic, BlueprintType)
-struct FCharInfo
+struct FCharInfo : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 iLevel;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 iHP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 iSP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 iMaxHP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 iMaxSP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 iExp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float fAtt;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float fDef;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EElementalType type;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsActive;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsInParty;
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Custom/CustomStruct.h"
 #include "GameFramework/SaveGame.h"
 #include "GameSaver.generated.h"
 
@@ -20,6 +21,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
 	int32 SaveIndex;		// Save game data file index
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
+	TArray<FCharInfo> CharInfos;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
 	TArray<FString> ActiveChar;
 };

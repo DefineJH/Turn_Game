@@ -37,13 +37,21 @@ void USubMenuParty::ConstructSubWidget()
 			UUserWidget* SingleChar = CreateWidget<UUserWidget>(this, CharDisplayWidget);
 			if (SingleChar)
 			{
+				UPaperSprite* sprite = Archive->GetSpriteFromName(Archive->GetFStringFromEnum("EElementType", (int32)info.type));
 				UTexture2D* tex = Archive->GetTextureFromName(info.Name);
 				if (tex)
 				{
 					Cast<UImage>(SingleChar->GetWidgetFromName(L"CharImage"))->SetBrushFromTexture(tex);
 				}
+				FString str = Archive->GetFStringFromEnum("EElementalType", (int32)info.type);
+				UE_LOG(LogTemp, Warning, L"%s", *str);
+				if (sprite)
+				{
+					UImage* tempImg = Cast<UImage>(SingleChar->GetWidgetFromName(L"Elemental"));
+				}
 				//±◊≥… ¿Ã∏ß∏∏ πŸ≤„¡‹
 				Cast<UTextBlock>(SingleChar->GetWidgetFromName(L"Name"))->SetText(FText::FromString(*info.Name));
+				Cast<UTextBlock>(SingleChar->GetWidgetFromName(L"Level"))->SetText(FText::FromString(*FString::FromInt(info.iLevel)));
 				CharLayoutBox->AddChildToVerticalBox(SingleChar);
 			}
 		}

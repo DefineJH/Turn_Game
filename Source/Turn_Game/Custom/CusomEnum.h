@@ -39,3 +39,14 @@ enum class ETurnMgrState : uint8
 	E_WaitForCommand	UMETA(DisplayName = "WaitForCommand"),
 	E_Execute			UMETA(DisplayName = "Execute")
 };
+
+UENUM(BlueprintType)
+enum class EElementalType : uint8
+{
+	E_Fire			UMETA(DisplayName = "Fire"),
+	E_Ice			UMETA(DisplayName = "Ice"),
+	E_Wind			UMETA(DisplayName = "Wind"),
+	E_Electric		UMETA(DisplayName = "Electric"),
+	E_Void			UMETA(DisplayName = "Void"),
+	E_MAX			UMETA(DisplayName = "MAX"),
+};
