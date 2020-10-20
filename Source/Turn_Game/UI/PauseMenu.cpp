@@ -3,13 +3,51 @@
 
 #include "PauseMenu.h"
 #include "SubMenuParty.h"
-void UPauseMenu::ViewPartyMenu()
+#include "SubMenuSave.h"
+
+bool UPauseMenu::GetIsRoot()
 {
+	if (CurrentMenu)
+		return false;
+	else
+		return true;
+}
+
+void UPauseMenu::RemoveSubMenu()
+{
+	CurrentMenu->RemoveFromViewport();
+	CurrentMenu = nullptr;
+}
+
+bool UPauseMenu::Initialize()
+{
+	if (!Super::Initialize())
+	{
+		return false;
+	}
 	if (PartyMenuClass)
 	{
 		PartyMenu = Cast<USubMenuParty>(CreateWidget<UUserWidget>(this, PartyMenuClass));
-		PartyMenu->ConstructSubWidget();
-		PartyMenu->AddToViewport();
-		PartyMenu->SetVisibility(ESlateVisibility::Visible);
 	}
+	if (SaveMenuClass)
+	{
+		SaveMenu = Cast<USubMenuSave>(CreateWidget<UUserWidget>(this, SaveMenuClass));
+	}
+	return true;
+}
+
+void UPauseMenu::ViewPartyMenu()
+{
+	PartyMenu->ConstructSubWidget();
+	PartyMenu->AddToViewport(1);
+	PartyMenu->SetVisibility(ESlateVisibility::Visible);
+	CurrentMenu = PartyMenu;
+}
+
+void UPauseMenu::ViewSaveMenu()
+{
+	SaveMenu->ConstructSubWidget();
+	SaveMenu->AddToViewport(1);
+	SaveMenu->SetVisibility(ESlateVisibility::Visible);
+	CurrentMenu = SaveMenu;
 }

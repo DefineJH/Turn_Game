@@ -2,89 +2,61 @@
 
 
 #include "MainPlayerController.h"
+#include "UI/PauseMenu.h"
 #include "Blueprint/UserWidget.h"
 void AMainPlayerController::BeginPlay()
 {
 	if (WPauseMenu)
 	{
-		PauseMenu = CreateWidget<UUserWidget>(this, WPauseMenu);
+		PauseMenu = Cast<UPauseMenu>(CreateWidget<UUserWidget>(this, WPauseMenu));
 		if (PauseMenu)
 		{
 			PauseMenu->AddToViewport();
 			PauseMenu->SetVisibility(ESlateVisibility::Hidden);
-			bPauseMenuVisibility = false;
-		}
-	}
-	if (WPartyMenu)
-	{
-		PartyMenu = CreateWidget<UUserWidget>(this, WPartyMenu);
-		if (PartyMenu)
-		{
-			PartyMenu->AddToViewport();
-			PartyMenu->SetVisibility(ESlateVisibility::Hidden);
-			bPartyMenuVisibility = false;
 		}
 	}
 }
 
 void AMainPlayerController::SetUIInput()
 {
-	SetInputMode(FInputModeUIOnly());
+	SetInputMode(FInputModeGameAndUI());
+	bShowMouseCursor = true;
 }
 
 void AMainPlayerController::SetGameInput()
 {
 	SetInputMode(FInputModeGameOnly());
+	bShowMouseCursor = false;
 }
 
 void AMainPlayerController::DisplayPauseMenu()
 {
 	SetUIInput();
-	bPauseMenuVisibility = true;
 	PauseMenu->SetVisibility(ESlateVisibility::Visible);
-	overlayDepth++;
 }
 
 void AMainPlayerController::RemovePauseMenu()
 {
-	bPauseMenuVisibility = false;
+	SetGameInput();
 	PauseMenu->SetVisibility(ESlateVisibility::Hidden);
-	overlayDepth--;
-	if (overlayDepth == 0)
-	{
-		SetGameInput();
-	}
 }
 
-void AMainPlayerController::DisplayPartyMenu()
-{
-	overlayDepth++;
-	RemovePauseMenu();
-}
+
 
 void AMainPlayerController::Back()
 {
-
+	if (!PauseMenu)
+		DisplayPauseMenu();
+	else
+	{
+		if (PauseMenu->GetIsRoot())
+		{
+			RemovePauseMenu();
+		}
+		else
+			PauseMenu->RemoveSubMenu();
+	}
 }
 
-void AMainPlayerController::RemovePartyMenu()
-{
-	overlayDepth--;
-	DisplayPauseMenu();
-}
 
-//void AMainPlayerController::TogglePauseMenu()
-//{
-//	if (!bPauseMenuVisibility)
-//		DisplayPauseMenu();
-//	else
-//		RemovePauseMenu();
-//}
-//
-//void AMainPlayerController::TogglePartyMenu()
-//{
-//	if (!bPartyMenuVisibility)
-//		DisplayPartyMenu();
-//	else
-//		RemovePartyMenu();
-//}
+

@@ -16,7 +16,7 @@ UCLASS()
 class TURN_GAME_API USubMenuParty : public USubMenuParent
 {
 	GENERATED_BODY()
-public:
+protected:
 	virtual void NativeConstruct() override;
 	virtual void ConstructSubWidget() override;
 protected:

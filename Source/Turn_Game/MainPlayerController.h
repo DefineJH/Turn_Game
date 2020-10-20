@@ -9,32 +9,17 @@
 /**
  * 
  */
+class UPauseMenu;
+
 UCLASS()
 class TURN_GAME_API AMainPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Widgets")
-	TSubclassOf<class UUserWidget> WPauseMenu;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = "Widgets")
-	UUserWidget* PauseMenu;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Widgets")
-	TSubclassOf<UUserWidget> WPartyMenu;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = "Widgets")
-	UUserWidget* PartyMenu;
-
-	bool bPauseMenuVisibility;
-	bool bPartyMenuVisibility;
-
-	char overlayDepth = 0;
 public:
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	void DisplayPauseMenu();
-	UFUNCTION(BlueprintCallable, Category = "Widget")
-	void DisplayPartyMenu();
+	void RemovePauseMenu();
 
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	void Back();
@@ -44,6 +29,11 @@ private:
 	void SetUIInput();
 	void SetGameInput();
 
-	void RemovePauseMenu();
-	void RemovePartyMenu();
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Widgets")
+	TSubclassOf<class UUserWidget> WPauseMenu;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, category = "Widgets")
+	UPauseMenu* PauseMenu;
+
 };

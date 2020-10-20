@@ -132,8 +132,12 @@ UTexture2D* UGI_Archive::GetTextureFromName(FString name) const
 
 UPaperSprite* UGI_Archive::GetSpriteFromName(FString name) const
 {
+	UE_LOG(LogTemp, Warning, L"%s sprite Called", *name);
 	if (UISpriteArchive.Contains(name))
+	{
+
 		return UISpriteArchive[name];
+	}
 	else
 		return nullptr;
 }

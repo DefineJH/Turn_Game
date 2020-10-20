@@ -48,5 +48,7 @@ enum class EElementalType : uint8
 	E_Wind			UMETA(DisplayName = "Wind"),
 	E_Electric		UMETA(DisplayName = "Electric"),
 	E_Void			UMETA(DisplayName = "Void"),
+	E_Light			UMETA(DisplayName = "Light"),
+	E_Dark			UMETA(DisplayName = "Dark"),
 	E_MAX			UMETA(DisplayName = "MAX"),
 };

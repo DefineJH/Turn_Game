@@ -19,12 +19,26 @@ class TURN_GAME_API UPauseMenu : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Widget")
-	TSubclassOf<USubMenuParent> PartyMenuClass;
+	bool GetIsRoot();
+	void RemoveSubMenu();
 protected:
-	USubMenuParent* PartyMenu;
-protected:
+	virtual bool Initialize() override;
+
 	//파티메뉴 생성후 불러온다
 	UFUNCTION(BlueprintCallable)
 	void ViewPartyMenu();
+
+	//파티메뉴 생성후 불러온다
+	UFUNCTION(BlueprintCallable)
+	void ViewSaveMenu();
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Widget")
+	TSubclassOf<USubMenuParent> PartyMenuClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Widget")
+	TSubclassOf<USubMenuParent> SaveMenuClass;
+protected:
+	USubMenuParent* PartyMenu;
+	USubMenuParent* SaveMenu;
+
+	USubMenuParent* CurrentMenu;
 };
