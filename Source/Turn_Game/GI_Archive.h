@@ -37,8 +37,15 @@ public:
 	UTexture2D* GetTextureFromName(FString name) const;
 	//텍스처를 가져오는 메서드
 	UPaperSprite* GetSpriteFromName(FString name) const;
+
 	//개임의 세이브 기능
 	bool SaveCurrentData(int idx);
+	//프리뷰 구성을 위해 세이브 데이터 슬롯을 가져온다
+	UGameSaver* GetSaveData(int idx);
+	//최대 세이브 슬롯을 전송
+	int8 GetMaxSaveSlot() const;
+	
+
 
 	//util function - uobject만들어서static function으로 이동
 	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
@@ -85,6 +92,8 @@ protected:
 
 private:
 	TSharedPtr<FStreamableHandle> StreamHandle;
+
+	const char MaxSaveSlot = 3;
 };
 
 

@@ -174,7 +174,6 @@ bool UGI_Archive::SaveCurrentData(int idx)
 	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
 	SaveInst->SaveSlotName = L"Default";
 	SaveInst->SaveIndex = idx;
-
 	SaveInst->ActiveChar = CurActiveChar;
 	for (auto& tmp : CurCharInfo)
 	{
@@ -187,6 +186,17 @@ bool UGI_Archive::SaveCurrentData(int idx)
 	else
 		return false;
 }
+
+UGameSaver* UGI_Archive::GetSaveData(int idx)
+{
+	return nullptr;
+}
+
+int8 UGI_Archive::GetMaxSaveSlot() const
+{
+	return MaxSaveSlot;
+}
+
 
 FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 {
