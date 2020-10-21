@@ -28,14 +28,11 @@ void UGI_Archive::LoadModels(TArray<FString> CharName)
 	StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnMeshLoadCompleted));
 }
 
-//TOptional<TSharedPtr<USkeletalMesh>> UGI_Archive::QueryModel(FString name)
-TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
+TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name) 
 {
 	TOptional<USkeletalMesh*> optional;
-	UE_LOG(LogTemp, Warning, L"Find %s Called", *name);
 	if (ModelArchive.Contains(name))
 	{
-		UE_LOG(LogTemp, Warning, L"Model Returned");
 		optional = ModelArchive[name];
 	}
 	else
@@ -81,8 +78,6 @@ void UGI_Archive::Init()
 	Super::Init();
 	ConstructModelPath();
 	ConstructDefaultCharData();
-	UE_LOG(LogTemp, Warning, L"init");
-	UE_LOG(LogTemp, Warning, L"%s has loaded", *MainChar);
 	LoadModels(CurActiveChar);
 
 	FTimerHandle WaitHandle;
@@ -113,8 +108,6 @@ void UGI_Archive::OnMeshLoadCompleted()
 			FString Last;
 
 			name.Split("_", nullptr, &Last);
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *Last);
-			//ModelArchive.Add(Last, MakeShareable(mesh));
 			ModelArchive.Add(Last, mesh);
 		}
 	}
@@ -125,8 +118,8 @@ void UGI_Archive::OnMeshLoadCompleted()
 
 UTexture2D* UGI_Archive::GetTextureFromName(FString name) const
 {
-	if (UICharImgArchive.Contains(name))
-		return UICharImgArchive[name];
+	if (TextureArchive.Contains(name))
+		return TextureArchive[name];
 	else
 		return nullptr;
 }
@@ -213,7 +206,7 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 	}
 }
 
-TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName)
+TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName) const
 {
 	TOptional<FCharInfo> info;
 	if (DefaultCharData_DT)

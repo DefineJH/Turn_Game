@@ -21,7 +21,9 @@ class TURN_GAME_API UPartyCharDisplay : public UUserWidget
 	GENERATED_BODY()
 public:
 	void ConstructByData(FCharInfo info, UGI_Archive* archive);
+
 	void ConstructByData(TOptional<FCharInfo> info, UGI_Archive* archive);
+
 protected:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UImage* CharImage;
