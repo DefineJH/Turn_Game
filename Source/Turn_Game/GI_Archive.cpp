@@ -81,7 +81,8 @@ void UGI_Archive::Init()
 	Super::Init();
 	ConstructModelPath();
 	ConstructDefaultCharData();
-
+	UE_LOG(LogTemp, Warning, L"init");
+	UE_LOG(LogTemp, Warning, L"%s has loaded", *MainChar);
 	LoadModels(CurActiveChar);
 
 	FTimerHandle WaitHandle;
@@ -210,4 +211,23 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 		temp.Split("_", nullptr, &last);
 		return last;
 	}
+}
+
+TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName)
+{
+	TOptional<FCharInfo> info;
+	if (DefaultCharData_DT)
+	{
+		auto rownames = DefaultCharData_DT->GetRowNames();
+		auto rowStruct = DefaultCharData_DT->GetRowStruct();
+		for (auto& name : rownames)
+		{
+			FCharInfo* temp = DefaultCharData_DT->FindRow<FCharInfo>(*CharName, "");
+			if (temp)
+			{
+				info = *temp;
+			}
+		}
+	}
+	return info;
 }

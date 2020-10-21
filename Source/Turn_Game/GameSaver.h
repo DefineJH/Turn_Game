@@ -15,6 +15,8 @@ class TURN_GAME_API UGameSaver : public USaveGame
 {
 	GENERATED_BODY()
 public:
+	FCharInfo GetCharInfo(FString name) const;
+public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
 	FString SaveSlotName;		// Save game data file name
 
@@ -26,8 +28,12 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
 	TArray<FString> ActiveChar;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
-	int8 PlayTime_H;
+	FString MainChar;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
-	int8 PlayTime_M;
+	uint8 PlayTime_H;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
+	uint8 PlayTime_M;
 };

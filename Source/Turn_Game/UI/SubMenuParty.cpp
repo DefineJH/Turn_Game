@@ -2,6 +2,7 @@
 
 
 #include "SubMenuParty.h"
+#include "PartyCharDisplay.h"
 #include "Components/VerticalBox.h"
 #include "Components/TextBlock.h"
 #include "Components/PanelSlot.h"
@@ -29,31 +30,17 @@ void USubMenuParty::ConstructSubWidget()
 
 	if (Archive)
 	{
-		auto infos = Archive->GetCharInfo();
+		TArray<FCharInfo> infos = Archive->GetCharInfo();
 		// 박스안의 위젯들을 정렬하기 위해 구조체 생성.
 		FSlateChildSize Size(ESlateSizeRule::Fill);
 		Size.Value = 1.0f;
 		// 캐릭터 설명 위젯을 받은 정보를 토대로 만듦
-		for (auto info : infos)
+		for (FCharInfo& info : infos)
 		{
-			UUserWidget* SingleChar = CreateWidget<UUserWidget>(this, CharDisplayWidget);
+			UPartyCharDisplay* SingleChar = Cast<UPartyCharDisplay>(CreateWidget<UUserWidget>(this, CharDisplayWidget));
 			if (SingleChar)
 			{
-				UPaperSprite* sprite = Archive->GetSpriteFromName(Archive->GetFStringFromEnum("EElementalType", (int32)info.type));
-				UTexture2D* tex = Archive->GetTextureFromName(info.Name);
-				if (tex)
-				{
-					Cast<UImage>(SingleChar->GetWidgetFromName(L"CharImage"))->SetBrushFromTexture(tex);
-				}
-				if (sprite)
-				{
-					UE_LOG(LogTemp, Warning, L"Load Success");
-					UImage* tempImg = Cast<UImage>(SingleChar->GetWidgetFromName(L"Elemental"));
-					tempImg->SetBrushFromAtlasInterface(sprite,true);
-				}
-				//그냥 이름만 바꿔줌
-				Cast<UTextBlock>(SingleChar->GetWidgetFromName(L"Name"))->SetText(FText::FromString(*info.Name));
-				Cast<UTextBlock>(SingleChar->GetWidgetFromName(L"Level"))->SetText(FText::FromString(*FString::FromInt(info.iLevel)));
+				SingleChar->ConstructByData(info,Archive);
 				CharLayoutBox->AddChildToVerticalBox(SingleChar);
 			}
 		}

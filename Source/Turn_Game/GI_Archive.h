@@ -19,7 +19,7 @@ class UDataTable;
 class UTexture2D;
 class UPaperSprite;
 
-UCLASS()
+UCLASS(Config = Game)
 class TURN_GAME_API UGI_Archive : public UGameInstance
 {
 	GENERATED_BODY()
@@ -45,10 +45,12 @@ public:
 	//최대 세이브 슬롯을 전송
 	int8 GetMaxSaveSlot() const;
 	
-
+	FORCEINLINE FString GetMainChar() const { return MainChar; }
 
 	//util function - uobject만들어서static function으로 이동
 	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
+
+	TOptional<FCharInfo> GetDefaultCharData(FString CharName);
 protected:
 	//ModelPath_DT를 토대로 모든 모델의 stringpath를 설정
 	void ConstructModelPath();
@@ -61,6 +63,7 @@ private:
 	bool HasSaveData(int idx);
 	//게임 시작시 기본적인 캐릭터 정보를 구성 ( 로딩할때 로딩된 데이터에 따라 변환 )
 	void ConstructDefaultCharData();
+
 public:
 	//읽어갈 수 있게 true로 해놓음, 현재 요청받은 캐릭터 로딩이 끝날 시에 true로 바뀜
 	//캐릭터를 바꾸지 않고 진입시에도 true유지하니까 이거보고 로직 세우면 쌉가능
@@ -89,6 +92,8 @@ protected:
 
 	TMap<FString, FCharInfo> CurCharInfo;
 	TArray<FString> CurActiveChar;
+	UPROPERTY(Config)
+	FString MainChar;
 
 private:
 	TSharedPtr<FStreamableHandle> StreamHandle;
