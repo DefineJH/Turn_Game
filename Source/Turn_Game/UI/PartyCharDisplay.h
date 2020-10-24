@@ -12,6 +12,7 @@
 
 class UImage;
 class UTextBlock;
+class UProgressBar;
 class UGI_Archive;
 struct FCharInfo;
 
@@ -26,11 +27,24 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
-	UImage* CharImage;
+	UImage* Image_Char;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UImage* Elemental;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* Name;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* Level;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* Text_HP;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* Text_SP;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* Text_EXP;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UProgressBar* Progress_HP;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UProgressBar* Progress_SP;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UProgressBar* Progress_EXP;
+
 };

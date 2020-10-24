@@ -6,6 +6,7 @@
 #include "../GI_Archive.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Components/ProgressBar.h"
 #include "PaperSprite.h"
 
 void UPartyCharDisplay::ConstructByData(FCharInfo info, UGI_Archive* archive)
@@ -14,7 +15,7 @@ void UPartyCharDisplay::ConstructByData(FCharInfo info, UGI_Archive* archive)
 	UTexture2D* tex = archive->GetTextureFromName(info.Name);
 	if (tex)
 	{
-		CharImage->SetBrushFromTexture(tex);
+		Image_Char->SetBrushFromTexture(tex);
 	}
 	if (sprite)
 	{
@@ -25,6 +26,14 @@ void UPartyCharDisplay::ConstructByData(FCharInfo info, UGI_Archive* archive)
 	//±◊≥… ¿Ã∏ß∏∏ πŸ≤„¡‹
 	Cast<UTextBlock>(Name)->SetText(FText::FromString(*info.Name));
 	Cast<UTextBlock>(Level)->SetText(FText::FromString(*FString::FromInt(info.iLevel)));
+
+	Text_HP->SetText(FText::FromString(FString::FromInt(info.iMaxHP) + L"//" + FString::FromInt(info.iHP)));
+	Text_SP->SetText(FText::FromString(FString::FromInt(info.iMaxSP) + L"//" + FString::FromInt(info.iSP)));
+	Text_EXP->SetText(FText::FromString(FString::FromInt(info.iExp) + L"//" + FString::FromInt(100)));
+
+	Progress_HP->SetPercent(info.iHP / info.iMaxHP);
+	Progress_SP->SetPercent(info.iSP / info.iMaxSP);
+	Progress_EXP->SetPercent(info.iSP / 100);
 }
 
 void UPartyCharDisplay::ConstructByData(TOptional<FCharInfo> info, UGI_Archive* archive)
