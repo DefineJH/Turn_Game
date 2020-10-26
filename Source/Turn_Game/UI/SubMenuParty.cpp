@@ -18,7 +18,7 @@ void USubMenuParty::NativeConstruct()
 {
 	Super::NativeConstruct();
 	UPanelWidget* RootWidget = Cast<UPanelWidget>(GetRootWidget());
-	CharLayoutBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(), L"CharLayout");
+	CharLayoutBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),   L"CharLayout");
 	RootWidget->AddChild(CharLayoutBox);
 }
 

@@ -5,6 +5,7 @@
 #include "../GameSaver.h"
 #include "../GI_Archive.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 #include "PartyCharDisplay.h"
 
 void USaveSlot::ConstructFromData(UGameSaver* SaveData, UGI_Archive* archive)
@@ -25,6 +26,8 @@ void USaveSlot::ConstructFromData(UGameSaver* SaveData, UGI_Archive* archive)
 
 void USaveSlot::ConstructInvalidData(UGI_Archive* archive)
 {
+
+	Thumbnail->SetBrushFromTexture(archive->GetTextureFromName("Thumb_Empty"));
 	MainChar->ConstructByData(archive->GetDefaultCharData(archive->GetMainChar()), archive);
 	SlotIndex->SetText(FText::FromString(L"None"));
 	PlayTime->SetText(FText::FromString(L"0H0M"));

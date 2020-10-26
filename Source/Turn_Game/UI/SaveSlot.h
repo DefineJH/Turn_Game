@@ -13,6 +13,7 @@
 class UGameSaver;
 class UGI_Archive;
 class UTextBlock;
+class UImage;
 class UPartyCharDisplay;
 UCLASS()
 class TURN_GAME_API USaveSlot : public UUserWidget
@@ -29,6 +30,8 @@ protected:
 	UTextBlock* SlotIndex;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* PlayTime;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UImage* Thumbnail;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UPartyCharDisplay* MainChar;
 };
