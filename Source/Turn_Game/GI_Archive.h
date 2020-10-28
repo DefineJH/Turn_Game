@@ -46,6 +46,13 @@ public:
 	TArray<FCharInfo> GetCharInfo() const;
 
 	/**
+	* 파티 UI 구성을 위해 현재 파티에 존재하는 캐릭터의 정보를 받아오는 메서드
+	* @return CurCharInfo 배열에서 파티에 존재하는 캐릭터(bIsInParty)의 정보를 반환
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Info")
+	FCharInfo GetCharInfo(FString CharName) const;
+
+	/**
 	* Map에 저장된 Texture를 받아오는 메서드
 	* @param name - 텍스처의 이름
 	* @return 만약 없을 시 nullptr 반환 ( TOptional로 변경 필요 )

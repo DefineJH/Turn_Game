@@ -17,14 +17,15 @@
 void USubMenuParty::NativeConstruct()
 {
 	Super::NativeConstruct();
-	UPanelWidget* RootWidget = Cast<UPanelWidget>(GetRootWidget());
-	CharLayoutBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),   L"CharLayout");
-	RootWidget->AddChild(CharLayoutBox);
+	//UPanelWidget* RootWidget = Cast<UPanelWidget>(GetRootWidget());
+	//CharLayoutBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),   L"CharLayout");
+	//RootWidget->AddChild(CharLayoutBox);
 }
 
 void USubMenuParty::ConstructSubWidget()
 {
 	if (!CharLayoutBox) return;
+	CharLayoutBox->ClearChildren();
 
 	UGI_Archive* Archive = Cast<UGI_Archive>(GetGameInstance());
 

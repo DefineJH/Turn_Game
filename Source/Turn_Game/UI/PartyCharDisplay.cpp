@@ -23,6 +23,12 @@ void UPartyCharDisplay::ConstructByData(FCharInfo info, UGI_Archive* archive)
 		UImage* tempImg = Cast<UImage>(Elemental);
 		tempImg->SetBrushFromAtlasInterface(sprite, true);
 	}
+	tex = nullptr;
+	tex = archive->GetTextureFromName(info.bIsActive ? "Check" : "NonCheck");
+	if (tex)
+	{
+		Image_Select->SetBrushFromTexture(tex);
+	}
 	//±◊≥… ¿Ã∏ß∏∏ πŸ≤„¡‹
 	Cast<UTextBlock>(Name)->SetText(FText::FromString(*info.Name));
 	Cast<UTextBlock>(Level)->SetText(FText::FromString(*FString::FromInt(info.iLevel)));

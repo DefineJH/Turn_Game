@@ -55,6 +55,12 @@ TArray<FCharInfo> UGI_Archive::GetCharInfo() const
 	return tempInfo;
 }
 
+FCharInfo UGI_Archive::GetCharInfo(FString CharName) const
+{
+	check(CurCharInfo.Contains(CharName));
+	return CurCharInfo[CharName];
+}
+
 void UGI_Archive::ConstructModelPath()
 {
 	if (ModelPath_DT)
@@ -156,6 +162,16 @@ void UGI_Archive::ConstructDefaultCharData()
 			FCharInfo* temp = DefaultCharData_DT->FindRow<FCharInfo>(name, "");
 			if (temp)
 			{
+				for (auto& CharName : CurActiveChar)
+				{
+					if (temp->Name == CharName)
+					{
+						temp->bIsActive = true;
+						break;
+					}
+					else
+						temp->bIsActive = false;
+				}
 				CurCharInfo.Add(temp->Name, *temp);
 			}
 		}
