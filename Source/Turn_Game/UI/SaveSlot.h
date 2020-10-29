@@ -21,7 +21,7 @@ class TURN_GAME_API USaveSlot : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	void ConstructFromData(UGameSaver* SaveData ,UGI_Archive* archive);
+	void ConstructFromData(int idx ,UGI_Archive* archive);
 protected:
 	void ConstructInvalidData(UGI_Archive* archive);
 protected:
@@ -34,4 +34,7 @@ protected:
 	UImage* Thumbnail;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UPartyCharDisplay* MainChar;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
+	int saveidx;
 };

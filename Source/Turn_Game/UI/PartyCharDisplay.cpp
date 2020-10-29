@@ -19,7 +19,6 @@ void UPartyCharDisplay::ConstructByData(FCharInfo info, UGI_Archive* archive)
 	}
 	if (sprite)
 	{
-		UE_LOG(LogTemp, Warning, L"Load Success");
 		UImage* tempImg = Cast<UImage>(Elemental);
 		tempImg->SetBrushFromAtlasInterface(sprite, true);
 	}

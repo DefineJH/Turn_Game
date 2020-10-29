@@ -2,6 +2,7 @@
 
 
 #include "ExplorerChar.h"
+#include "GI_Archive.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -30,7 +31,12 @@ void AExplorerChar::BeginPlay()
 		MovementComp->bUseControllerDesiredRotation = true;
 		MovementComp->bOrientRotationToMovement = true;
 	}
-	
+
+	UGI_Archive* Arch = Cast<UGI_Archive>(GetGameInstance());
+	if (Arch)
+	{
+		SetCharMesh(Arch->GetMainChar());
+	}
 }
 
 void AExplorerChar::MoveVertical(float value)
@@ -67,5 +73,18 @@ void AExplorerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAxis("Turn", this, &AExplorerChar::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &AExplorerChar::AddControllerPitchInput);
+}
+
+void AExplorerChar::SetCharMesh(FString CharName)
+{
+	UGI_Archive* Arch = Cast<UGI_Archive>(GetGameInstance());
+	if (Arch)
+	{
+		auto model = Arch->QueryModel(CharName);
+		if (model.IsSet())
+			GetMesh()->SetSkeletalMesh(model.GetValue());
+		else
+			Arch->MeshLoadDelegate.BindUFunction(this, L"SetCharMesh");
+	}
 }
 

@@ -21,6 +21,8 @@ class TURN_GAME_API UPauseMenu : public UUserWidget
 public:
 	bool GetIsRoot();
 	void RemoveSubMenu();
+	UFUNCTION(BlueprintCallable)
+	void UpdateCurMenu();
 protected:
 	virtual bool Initialize() override;
 
@@ -31,6 +33,8 @@ protected:
 	//파티메뉴 생성후 불러온다
 	UFUNCTION(BlueprintCallable)
 	void ViewSaveMenu();
+
+
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widget")
 	TSubclassOf<USubMenuParent> PartyMenuClass;

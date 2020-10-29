@@ -61,6 +61,58 @@ FCharInfo UGI_Archive::GetCharInfo(FString CharName) const
 	return CurCharInfo[CharName];
 }
 
+bool UGI_Archive::SetActiveChar(UPARAM(ref)FString & CharName)
+{
+	if (CurActiveChar.Num() == 3)
+	{
+		return false;
+	}
+	else
+	{
+		CurActiveChar.Add(CharName);
+		CurCharInfo[CharName].bIsActive = true;
+		return true;
+	}
+}
+
+bool UGI_Archive::RemoveActiveChar(UPARAM(ref)FString& CharName)
+{
+	if (CurActiveChar.Num() == 0)
+	{
+		return false;
+	}
+	else
+	{
+		for (FString& name : CurActiveChar)
+		{
+			if (name.Equals(CharName))
+			{
+				CurActiveChar.Remove(CharName);
+				CurCharInfo[CharName].bIsActive = false;
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+bool UGI_Archive::IsActiveChar(UPARAM(ref)FString& CharName)
+{
+	for (FString& name : CurActiveChar)
+	{
+		if (name.Equals(CharName))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void UGI_Archive::ChangeMainChar(UPARAM(ref)FString& CharName)
+{
+	MainChar = CharName;
+}
+
 void UGI_Archive::ConstructModelPath()
 {
 	if (ModelPath_DT)
@@ -103,6 +155,9 @@ void UGI_Archive::OnMeshLoadCompleted()
 	bIsLoadCompleted = true;
 
 	TArray<UObject*> loaded;
+
+	FString Last;
+
 	StreamHandle.Get()->GetLoadedAssets(loaded);
 
 	for (auto elem : loaded)
@@ -111,7 +166,6 @@ void UGI_Archive::OnMeshLoadCompleted()
 		{
 			USkeletalMesh* mesh = Cast<USkeletalMesh>(elem);
 			FString name = mesh->GetName();
-			FString Last;
 
 			name.Split("_", nullptr, &Last);
 			ModelArchive.Add(Last, mesh);
@@ -119,6 +173,12 @@ void UGI_Archive::OnMeshLoadCompleted()
 	}
 
 	StreamHandle.Get()->ReleaseHandle();
+
+	if (MeshLoadDelegate.IsBound())
+	{
+		MeshLoadDelegate.Execute(Last);
+		MeshLoadDelegate.Unbind();
+	}
 }
 
 
@@ -132,7 +192,6 @@ UTexture2D* UGI_Archive::GetTextureFromName(FString name) const
 
 UPaperSprite* UGI_Archive::GetSpriteFromName(FString name) const
 {
-	UE_LOG(LogTemp, Warning, L"%s sprite Called", *name);
 	if (UISpriteArchive.Contains(name))
 	{
 
@@ -144,8 +203,11 @@ UPaperSprite* UGI_Archive::GetSpriteFromName(FString name) const
 
 bool UGI_Archive::HasSaveData(int idx)
 {
-	if (UGameplayStatics::DoesSaveGameExist(L"Default", idx))
+	if (UGameplayStatics::DoesSaveGameExist(L"Slot"+ FString::FromInt(idx), 0))
+	{
+		UE_LOG(LogTemp, Warning, L"Has Save Data");
 		return true;
+	}
 	else
 		return false;
 }
@@ -153,6 +215,7 @@ bool UGI_Archive::HasSaveData(int idx)
 void UGI_Archive::ConstructDefaultCharData()
 {
 	CurActiveChar = { "Mia" , "Louis", "Eva" };
+	MainChar = "Louis";
 	if (DefaultCharData_DT)
 	{
 		auto rownames = DefaultCharData_DT->GetRowNames();
@@ -182,9 +245,11 @@ void UGI_Archive::ConstructDefaultCharData()
 bool UGI_Archive::SaveCurrentData(int idx)
 {
 	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
-	SaveInst->SaveSlotName = L"Default";
-	SaveInst->SaveIndex = idx;
+	SaveInst->SaveSlotName = L"Slot" + FString::FromInt(idx);
+	SaveInst->SaveIndex = 0;
 	SaveInst->ActiveChar = CurActiveChar;
+	UE_LOG(LogTemp, Warning, L"%s", *MainChar);
+	SaveInst->MainChar = MainChar;
 	for (auto& tmp : CurCharInfo)
 	{
 		SaveInst->CharInfos.Add(tmp.Value);
@@ -199,7 +264,12 @@ bool UGI_Archive::SaveCurrentData(int idx)
 
 UGameSaver* UGI_Archive::GetSaveData(int idx)
 {
-	return nullptr;
+	UGameSaver* SaveInst = nullptr;
+	if (HasSaveData(idx))
+	{
+		SaveInst = Cast<UGameSaver>(UGameplayStatics::LoadGameFromSlot(L"Slot"+FString::FromInt(idx),0));
+	}
+	return SaveInst;
 }
 
 int8 UGI_Archive::GetMaxSaveSlot() const
@@ -221,6 +291,8 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 		return last;
 	}
 }
+
+
 
 TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName) const
 {

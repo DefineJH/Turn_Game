@@ -58,3 +58,8 @@ void USubMenuParty::ConstructSubWidget()
 		}
 	}
 }
+
+void USubMenuParty::UpdateSubWidget()
+{
+	ConstructSubWidget();
+}

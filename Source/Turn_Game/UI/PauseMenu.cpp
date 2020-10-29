@@ -51,3 +51,8 @@ void UPauseMenu::ViewSaveMenu()
 	SaveMenu->SetVisibility(ESlateVisibility::Visible);
 	CurrentMenu = SaveMenu;
 }
+
+void UPauseMenu::UpdateCurMenu()
+{
+	CurrentMenu->UpdateSubWidget();
+}

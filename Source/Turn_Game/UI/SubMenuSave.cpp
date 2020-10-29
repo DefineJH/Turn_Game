@@ -12,14 +12,12 @@
 void USubMenuSave::NativeConstruct()
 {
 	Super::NativeConstruct();
-	UPanelWidget* RootWidget = Cast<UPanelWidget>(GetRootWidget());
-	SaveSlotLayoutBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(), L"CharLayout");
-	RootWidget->AddChild(SaveSlotLayoutBox);
 }
 
 void USubMenuSave::ConstructSubWidget()
 {
 	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+	SaveSlotLayoutBox->ClearChildren();
 	if (arch)
 	{
 		auto maxSlot = arch->GetMaxSaveSlot();
@@ -30,7 +28,7 @@ void USubMenuSave::ConstructSubWidget()
 				USaveSlot* SaveSlot = Cast<USaveSlot>(CreateWidget<UUserWidget>(this, SaveSlotWidgetClass));
 				if (SaveSlot)
 				{
-					SaveSlot->ConstructFromData(arch->GetSaveData(i), arch);
+					SaveSlot->ConstructFromData(i, arch);
 					SaveSlotLayoutBox->AddChildToVerticalBox(SaveSlot);
 				}
 			}
@@ -48,4 +46,9 @@ void USubMenuSave::ConstructSubWidget()
 			VertSlot->SetSize(Size);
 		}
 	}
+}
+
+void USubMenuSave::UpdateSubWidget()
+{
+	ConstructSubWidget();
 }

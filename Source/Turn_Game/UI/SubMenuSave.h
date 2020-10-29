@@ -16,9 +16,10 @@ UCLASS()
 class TURN_GAME_API USubMenuSave : public USubMenuParent
 {
 	GENERATED_BODY()
-protected:
+public:
 	virtual void NativeConstruct() override;
 	virtual void ConstructSubWidget() override;
+	virtual void UpdateSubWidget() override;
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Widget")
 	TSubclassOf<UUserWidget> SaveSlotWidgetClass;

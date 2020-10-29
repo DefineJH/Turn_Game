@@ -11,3 +11,8 @@ void USubMenuParent::NativeConstruct()
 void USubMenuParent::ConstructSubWidget()
 {
 }
+
+void USubMenuParent::UpdateSubWidget()
+{
+
+}

@@ -58,5 +58,12 @@ void AMainPlayerController::Back()
 	}
 }
 
+void AMainPlayerController::UpdateWidget()
+{
+	if (PauseMenu)
+	{
+		PauseMenu->UpdateCurMenu();
+	}
+}
 
 

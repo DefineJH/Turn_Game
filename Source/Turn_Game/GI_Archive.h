@@ -13,6 +13,7 @@
 /**
  * 
  */
+DECLARE_DELEGATE_OneParam(FMeshLoadCompleteSignature, const FString&);
 
 class USkeletalMesh;
 class UDataTable;
@@ -70,6 +71,7 @@ public:
 	* @param idx - 게임 데이터 슬롯 ( 0~2 )
 	* @return 저장 성공시 true, 실패시 false
 	*/
+	UFUNCTION(BlueprintCallable, Category = "Save&Load")
 	bool SaveCurrentData(int idx);
 
 	/**
@@ -90,6 +92,7 @@ public:
 	* 맵 탐험을 위한 메인 캐릭터 이름을 반환하는 메서드
 	* @return UGI_Archive::MainChar반환 ( ini 설정으로 기본 Louis )
 	*/
+	UFUNCTION(BlueprintCallable, Category = "Character")
 	FORCEINLINE FString GetMainChar() const { return MainChar; }
 	/**
 	* DefaultCharData_DT에 존재하는 캐릭터의 기본 데이터를 FCharInfo로 반환
@@ -101,6 +104,18 @@ public:
 	//util function - uobject만들어서static function으로 이동
 	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
 
+
+	UFUNCTION(BlueprintCallable, Category = "Party")
+	bool SetActiveChar(UPARAM(ref) FString& CharName);
+
+	UFUNCTION(BlueprintCallable, Category = "Party")
+	bool RemoveActiveChar(UPARAM(ref) FString& CharName);
+
+	UFUNCTION(BlueprintCallable, Category = "Party")
+	bool IsActiveChar(UPARAM(ref) FString& CharName);
+
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	void ChangeMainChar(UPARAM(ref) FString& CharName);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();
@@ -118,6 +133,8 @@ public:
 	/** LoadModels 에서 로딩을 요청받은 캐릭터 로딩이 끝날 시에 true로 바뀜*/
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	bool bIsLoadCompleted;
+
+	FMeshLoadCompleteSignature MeshLoadDelegate;
 protected:
 	//캐릭터이름과 path를 담고 있는 변수, 블루프린트에서 설정
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
@@ -141,7 +158,6 @@ protected:
 
 	TMap<FString, FCharInfo> CurCharInfo;
 	TArray<FString> CurActiveChar;
-
 	UPROPERTY(Config)
 	FString MainChar;
 

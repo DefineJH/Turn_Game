@@ -16,4 +16,5 @@ class TURN_GAME_API USubMenuParent : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 	virtual void ConstructSubWidget();
+	virtual void UpdateSubWidget();
 };

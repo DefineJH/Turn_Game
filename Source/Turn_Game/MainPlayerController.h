@@ -23,12 +23,14 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	void Back();
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	void UpdateWidget();
 protected:
 	virtual void BeginPlay() override;
 private:
 	void SetUIInput();
 	void SetGameInput();
-
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Widgets")
 	TSubclassOf<class UUserWidget> WPauseMenu;
