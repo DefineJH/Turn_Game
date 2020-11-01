@@ -13,6 +13,8 @@
 /**
  * 
  */
+
+ /**캐릭터 비동기 로딩 끝날 시 Execute 되는 델리게이트 */
 DECLARE_DELEGATE_OneParam(FMeshLoadCompleteSignature, const FString&);
 
 class USkeletalMesh;
@@ -101,21 +103,40 @@ public:
 	*/
 	TOptional<FCharInfo> GetDefaultCharData(FString CharName) const;
 
-	//util function - uobject만들어서static function으로 이동
-	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
 
-
+	/**
+	* 넘겨받은 캐릭터를 출전목록에 추가한다 
+	* @param CharName - 캐릭터 이름
+	* @return CurActiveChar가 3 이상이거나 현재 캐릭터가 이미 출전목록에 있으면 false 반환 , 성공시 true
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Party")
 	bool SetActiveChar(UPARAM(ref) FString& CharName);
 
+	/**
+	* 넘겨받은 캐릭터를 출전목록에서 제거한다
+	* @param CharName - 캐릭터 이름
+	* @return CurActiveChar가 0 이거나 현재 캐릭터가 이미 출전목록에 없으면 false 반환 , 성공시 true
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Party")
 	bool RemoveActiveChar(UPARAM(ref) FString& CharName);
-
+	/**
+	* 넘겨받은 캐릭터가 출전목록에 들어가 있는지 확인한다
+	* @param CharName - 캐릭터 이름
+	* @return 출전목록에 존재하면 true, 아닐시 false 반환
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Party")
-	bool IsActiveChar(UPARAM(ref) FString& CharName);
+	bool IsActiveChar(UPARAM(ref) FString& CharName) const;
 
+	/**
+	* 넘겨받은 캐릭터를 레벨을 탐험하는 캐릭터로 설정한다
+	* @param CharName - 캐릭터 이름
+	* @return 출전목록에 존재하면 true, 아닐시 false 반환
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	void ChangeMainChar(UPARAM(ref) FString& CharName);
+
+	//util function - uobject만들어서static function으로 이동
+	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();
@@ -158,6 +179,7 @@ protected:
 
 	TMap<FString, FCharInfo> CurCharInfo;
 	TArray<FString> CurActiveChar;
+
 	UPROPERTY(Config)
 	FString MainChar;
 

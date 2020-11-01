@@ -96,9 +96,9 @@ bool UGI_Archive::RemoveActiveChar(UPARAM(ref)FString& CharName)
 	}
 }
 
-bool UGI_Archive::IsActiveChar(UPARAM(ref)FString& CharName)
+bool UGI_Archive::IsActiveChar(UPARAM(ref)FString& CharName) const
 {
-	for (FString& name : CurActiveChar)
+	for (const FString& name : CurActiveChar)
 	{
 		if (name.Equals(CharName))
 		{

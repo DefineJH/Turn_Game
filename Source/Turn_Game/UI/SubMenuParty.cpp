@@ -3,10 +3,11 @@
 
 #include "SubMenuParty.h"
 #include "PartyCharDisplay.h"
-#include "Components/VerticalBox.h"
+#include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/PanelSlot.h"
-#include "Components/VerticalBoxSlot.h" 
+#include "Components/SizeBox.h"
+#include "Components/ScrollBoxSlot.h" 
 #include "Components/Image.h"
 #include "PaperSprite.h"
 #include "PaperSpriteBlueprintLibrary.h"
@@ -14,18 +15,11 @@
 #include "../Custom/CustomStruct.h"
 #include "../GI_Archive.h"
 
-void USubMenuParty::NativeConstruct()
-{
-	Super::NativeConstruct();
-	//UPanelWidget* RootWidget = Cast<UPanelWidget>(GetRootWidget());
-	//CharLayoutBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),   L"CharLayout");
-	//RootWidget->AddChild(CharLayoutBox);
-}
 
 void USubMenuParty::ConstructSubWidget()
 {
-	if (!CharLayoutBox) return;
-	CharLayoutBox->ClearChildren();
+	if (!LayoutBox) return;
+	LayoutBox->ClearChildren();
 
 	UGI_Archive* Archive = Cast<UGI_Archive>(GetGameInstance());
 
@@ -42,18 +36,31 @@ void USubMenuParty::ConstructSubWidget()
 			if (SingleChar)
 			{
 				SingleChar->ConstructByData(info,Archive);
-				CharLayoutBox->AddChildToVerticalBox(SingleChar);
+				USizeBox* SizeBox = WidgetTree->ConstructWidget<USizeBox>(USizeBox::StaticClass());
+
+				FVector2D size = GEngine->GameViewport->Viewport->GetSizeXY();
+				const float sizeY = size.Y / infos.Num();
+
+				if (SizeBox)
+				{
+					SizeBox->AddChild(SingleChar);
+					SizeBox->SetMinDesiredHeight(sizeY * 1.5f);
+					SizeBox->SetMinDesiredWidth(size.X);
+
+					LayoutBox->AddChild(SizeBox);
+				}
 			}
 		}
 		//UPanelSlot으로 받아온 후 UVerticalBoxSlot으로 바꿔 SizeRule을 바꿔준다
 		//동일한 Weight를 가지고 정렬됨
-		auto SlotArr = CharLayoutBox->GetSlots();
+		auto SlotArr = LayoutBox->GetSlots();
 		for (auto slot : SlotArr)
 		{
-			UVerticalBoxSlot* VertSlot = Cast<UVerticalBoxSlot>(slot);
-			if (VertSlot)
+			UScrollBoxSlot* ScrollSlot = Cast<UScrollBoxSlot>(slot);
+			if (ScrollSlot)
 			{
-				VertSlot->SetSize(Size);
+				ScrollSlot->SetHorizontalAlignment(HAlign_Fill);
+				ScrollSlot->SetVerticalAlignment(VAlign_Fill);
 			}
 		}
 	}

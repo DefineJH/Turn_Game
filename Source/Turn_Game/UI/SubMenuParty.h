@@ -11,13 +11,12 @@
  */
 
 class UUserWidget;
-class UVerticalBox;
+class UScrollBox;
 UCLASS()
 class TURN_GAME_API USubMenuParty : public USubMenuParent
 {
 	GENERATED_BODY()
 protected:
-	virtual void NativeConstruct() override;
 	virtual void ConstructSubWidget() override;
 	virtual void UpdateSubWidget() override;
 protected:
@@ -26,6 +25,6 @@ protected:
 	TSubclassOf<UUserWidget> CharDisplayWidget;
 	//캐릭터 설명들을 담는 버티컬박스
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta =(BindWidget))
-	UVerticalBox* CharLayoutBox;
+	UScrollBox* LayoutBox;
 	
 };
