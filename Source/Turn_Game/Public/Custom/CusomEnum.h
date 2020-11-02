@@ -52,3 +52,20 @@ enum class EElementalType : uint8
 	E_Dark			UMETA(DisplayName = "Dark"),
 	E_MAX			UMETA(DisplayName = "MAX"),
 };
+
+UENUM(BlueprintType)
+enum class EItemType : uint8 
+{
+	EIT_Use			UMETA(DisplayName = "Use"),
+	EIT_Skill		UMETA(DisplayName = "Skill"),
+	EIT_Quest		UMETA(DisplayName = "Quest"),
+	EIT_MAX			UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum class EEquipType : uint8
+{
+	EET_Weapon			UMETA(DisplayName = "Weapon"),
+	EET_Protective		UMETA(DisplayName = "Protective"),
+};
+

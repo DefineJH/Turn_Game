@@ -5,7 +5,7 @@
 #include "GameSaver.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/DataTable.h"
-#include "Custom/CustomStruct.h"
+#include "Public/Custom/CustomStruct.h"
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "GI_Archive.generated.h"
@@ -135,11 +135,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	void ChangeMainChar(UPARAM(ref) FString& CharName);
 
+
+	UFUNCTION(BlueprintCallable, Category = "Item")
+	FItemInfo& GetItemInfo(int32 itemCode);
+
+	UFUNCTION(BlueprintCallable, Category = "Item")
+	TArray<FItemInfo> GetItemInfoByCategory(EItemType type);
+
 	//util function - uobject만들어서static function으로 이동
 	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();
+
+	void ConstructItemInfo();
+
 	/** 초기화 함수*/
 	virtual void Init() override;
 private:
@@ -150,35 +160,53 @@ private:
 	/** 게임 시작시 기본적인 캐릭터 정보를 구성 ( 로딩할때 로딩된 데이터에 따라 변환 )*/
 	void ConstructDefaultCharData();
 
+	void ConstructDefaultData();
 public:
 	/** LoadModels 에서 로딩을 요청받은 캐릭터 로딩이 끝날 시에 true로 바뀜*/
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	bool bIsLoadCompleted;
 
+	/** LoadModels 에서 로딩을 요청받은 캐릭터 로딩이 끝날 시에 실행되는 델리게이트*/
 	FMeshLoadCompleteSignature MeshLoadDelegate;
 protected:
-	//캐릭터이름과 path를 담고 있는 변수, 블루프린트에서 설정
+	/**캐릭터이름과 path를 담고 있는 변수, 블루프린트에서 설정*/
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	UDataTable* ModelPath_DT;
 
-	//기본 캐릭터 데이터를 담고있는 데이터 테이블
+	/**기본 캐릭터 데이터를 담고있는 데이터 테이블*/
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	UDataTable* DefaultCharData_DT;
 
-	//모델의 이름과 path를 담고있는 map container
+	/**아이템 정보를 담고있는 데이터 테이블*/
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UDataTable* ItemData_DT;
+
+	/**모델의 이름과 path를 담고있는 map container*/
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TMap<FString, FStringAssetReference> PathArchive;
 
+	/**게임에 사용되는 텍스처를 모아놓은 맵, 에디터에서 추가*/
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TMap<FString, UTexture2D*> TextureArchive;
 
+	/**게임의 UI 에 사용되는 스프라이트들을 모아놓은 맵, 에디터에서 추가*/
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TMap<FString, UPaperSprite*> UISpriteArchive;
-	//모델의 이름과 스켈레탈 메쉬 포인터를담고있는 map container
+
+	/**모델의 이름과 스켈레탈 메쉬 포인터를담고있는 map container*/
 	TMap<FString, USkeletalMesh*> ModelArchive;
 
+	/**현재 진행중인 게임의 캐릭터 정보를 담고있는 map container*/
 	TMap<FString, FCharInfo> CurCharInfo;
+
+	/**현재 진행중인 게임의 출전 캐릭터 이름을 담고있는 배열*/
 	TArray<FString> CurActiveChar;
+
+	/**key - code , value - amount*/
+	TMap<int32, int32> CurItems;
+
+	/**게임 상에 존재하는 모든 아이템의 정보를 담고있는 배열*/
+	TArray<FItemInfo> ItemInfos;
 
 	UPROPERTY(Config)
 	FString MainChar;

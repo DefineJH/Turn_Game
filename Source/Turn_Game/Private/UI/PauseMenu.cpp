@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PauseMenu.h"
-#include "SubMenuParty.h"
-#include "SubMenuSave.h"
+#include "../Public/UI/PauseMenu.h"
+#include "../Public/UI/SubMenuParty.h"
+#include "../Public/UI/SubMenuSave.h"
+#include "../Public/UI/SubMenuInventory.h"
 
 bool UPauseMenu::GetIsRoot()
 {
@@ -33,6 +34,10 @@ bool UPauseMenu::Initialize()
 	{
 		SaveMenu = Cast<USubMenuSave>(CreateWidget<UUserWidget>(this, SaveMenuClass));
 	}
+	if (InvenMenuClass)
+	{
+		InvenMenu = Cast<USubMenuInventory>(CreateWidget<UUserWidget>(this, InvenMenuClass));
+	}
 	return true;
 }
 
@@ -50,6 +55,14 @@ void UPauseMenu::ViewSaveMenu()
 	SaveMenu->AddToViewport(1);
 	SaveMenu->SetVisibility(ESlateVisibility::Visible);
 	CurrentMenu = SaveMenu;
+}
+
+void UPauseMenu::ViewInvenMenu()
+{
+	InvenMenu->ConstructSubWidget();
+	InvenMenu->AddToViewport(1);
+	InvenMenu->SetVisibility(ESlateVisibility::Visible);
+	CurrentMenu = InvenMenu;
 }
 
 void UPauseMenu::UpdateCurMenu()

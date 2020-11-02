@@ -34,15 +34,22 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void ViewSaveMenu();
 
+	//인벤토리메뉴 생성후 불러온다
+	UFUNCTION(BlueprintCallable)
+	void ViewInvenMenu();
+
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widget")
 	TSubclassOf<USubMenuParent> PartyMenuClass;
 	UPROPERTY(EditDefaultsOnly, Category = "Widget")
 	TSubclassOf<USubMenuParent> SaveMenuClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Widget")
+	TSubclassOf<USubMenuParent> InvenMenuClass;
 protected:
 	USubMenuParent* PartyMenu;
 	USubMenuParent* SaveMenu;
+	USubMenuParent* InvenMenu;
 
 	USubMenuParent* CurrentMenu;
 };

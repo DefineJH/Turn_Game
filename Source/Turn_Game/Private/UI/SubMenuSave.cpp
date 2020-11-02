@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SubMenuSave.h"
+#include "../Public/UI/SubMenuSave.h"
+#include "../Public/UI/SaveSlot.h"
 #include "../GI_Archive.h"
 #include "../GameSaver.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Components/PanelSlot.h"
 #include "Blueprint/WidgetTree.h"
-#include "SaveSlot.h"
 
 void USubMenuSave::NativeConstruct()
 {

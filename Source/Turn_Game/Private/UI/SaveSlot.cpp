@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SaveSlot.h"
+#include "../Public/UI/SaveSlot.h"
+#include "../Public/UI/PartyCharDisplay.h"
 #include "../GameSaver.h"
 #include "../GI_Archive.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
-#include "PartyCharDisplay.h"
 
 void USaveSlot::ConstructFromData(int idx, UGI_Archive* archive)
 {

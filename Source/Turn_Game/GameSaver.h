@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Custom/CustomStruct.h"
+#include "Public/Custom/CustomStruct.h"
 #include "GameFramework/SaveGame.h"
 #include "GameSaver.generated.h"
 
@@ -28,6 +28,10 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
 	TArray<FString> ActiveChar;
+
+	/** key - ItemCode , value - Amount*/
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
+	TMap<int32, int32> Items;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
 	FString MainChar;

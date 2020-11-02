@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SubMenuParty.h"
-#include "PartyCharDisplay.h"
+#include "../Public/UI/SubMenuParty.h"
+#include "../Public/UI/PartyCharDisplay.h"
 #include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/PanelSlot.h"
@@ -12,7 +12,7 @@
 #include "PaperSprite.h"
 #include "PaperSpriteBlueprintLibrary.h"
 #include "Blueprint/WidgetTree.h"
-#include "../Custom/CustomStruct.h"
+#include "../Public/Custom/CustomStruct.h"
 #include "../GI_Archive.h"
 
 

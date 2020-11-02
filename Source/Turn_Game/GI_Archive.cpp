@@ -3,7 +3,7 @@
 
 #include "GI_Archive.h"
 #include "GameSaver.h"
-#include "Custom/CustomStruct.h"
+#include "Public/Custom/CustomStruct.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/Optional.h"
 #include "Engine/AssetManager.h"
@@ -113,6 +113,16 @@ void UGI_Archive::ChangeMainChar(UPARAM(ref)FString& CharName)
 	MainChar = CharName;
 }
 
+FItemInfo& UGI_Archive::GetItemInfo(int32 itemCode)
+{
+	return *ItemInfos.FindByPredicate([itemCode](const FItemInfo& info) { return info.ItemCode == itemCode; });
+}
+
+TArray<FItemInfo> UGI_Archive::GetItemInfoByCategory(EItemType type)
+{
+	return ItemInfos.FilterByPredicate([type](const FItemInfo& info) { return info.type == type; });
+}
+
 void UGI_Archive::ConstructModelPath()
 {
 	if (ModelPath_DT)
@@ -131,10 +141,34 @@ void UGI_Archive::ConstructModelPath()
 	}
 }
 
+void UGI_Archive::ConstructItemInfo()
+{
+	if (ItemData_DT)
+	{
+		auto rownames = ItemData_DT->GetRowNames();
+		auto rowStruct = ItemData_DT->GetRowStruct();
+		for (auto& name : rownames)
+		{
+			FItemInfo* temp = ItemData_DT->FindRow<FItemInfo>(name, "");
+			if (temp)
+			{
+				ItemInfos.Add(*temp);
+			}
+		}
+	}
+	ItemInfos.Sort([](const FItemInfo& lhs, const FItemInfo& rhs)
+	{
+		return lhs.ItemCode < rhs.ItemCode;
+	});
+}
+
 void UGI_Archive::Init()
 {
 	Super::Init();
 	ConstructModelPath();
+	ConstructItemInfo();
+
+	ConstructDefaultData();
 	ConstructDefaultCharData();
 	LoadModels(CurActiveChar);
 
@@ -214,8 +248,7 @@ bool UGI_Archive::HasSaveData(int idx)
 
 void UGI_Archive::ConstructDefaultCharData()
 {
-	CurActiveChar = { "Mia" , "Louis", "Eva" };
-	MainChar = "Louis";
+
 	if (DefaultCharData_DT)
 	{
 		auto rownames = DefaultCharData_DT->GetRowNames();
@@ -242,6 +275,15 @@ void UGI_Archive::ConstructDefaultCharData()
 	}
 }
 
+void UGI_Archive::ConstructDefaultData()
+{
+	CurActiveChar = { "Mia" , "Louis", "Eva" };
+	MainChar = "Louis";
+
+	CurItems.Add(1, 2);
+	CurItems.Add(2, 2);
+}
+
 bool UGI_Archive::SaveCurrentData(int idx)
 {
 	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
@@ -250,6 +292,7 @@ bool UGI_Archive::SaveCurrentData(int idx)
 	SaveInst->ActiveChar = CurActiveChar;
 	UE_LOG(LogTemp, Warning, L"%s", *MainChar);
 	SaveInst->MainChar = MainChar;
+	SaveInst->Items = CurItems;
 	for (auto& tmp : CurCharInfo)
 	{
 		SaveInst->CharInfos.Add(tmp.Value);

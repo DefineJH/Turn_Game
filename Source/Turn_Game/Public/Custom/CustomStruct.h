@@ -144,3 +144,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsInParty;
 };
+
+USTRUCT(Atomic, BlueprintType)
+struct FItemInfo : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 ItemCode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EItemType type;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ItemName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ItemDesc;
+};

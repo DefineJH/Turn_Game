@@ -4,14 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "SubMenuInventory.generated.h"
+#include "../Public/Custom/CusomEnum.h"
+#include "InvenView.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TURN_GAME_API USubMenuInventory : public UUserWidget
+class TURN_GAME_API UInvenView : public UUserWidget
 {
 	GENERATED_BODY()
-	
+public:
+	void ConstructInven(EItemType CategoryType);
 };

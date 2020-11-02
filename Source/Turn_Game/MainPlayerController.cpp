@@ -4,6 +4,7 @@
 #include "MainPlayerController.h"
 #include "UI/PauseMenu.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 void AMainPlayerController::BeginPlay()
 {
@@ -34,12 +35,14 @@ void AMainPlayerController::DisplayPauseMenu()
 {
 	SetUIInput();
 	PauseMenu->SetVisibility(ESlateVisibility::Visible);
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
 void AMainPlayerController::RemovePauseMenu()
 {
 	SetGameInput();
 	PauseMenu->SetVisibility(ESlateVisibility::Hidden);
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }
 
 

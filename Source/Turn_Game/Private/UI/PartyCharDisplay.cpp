@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PartyCharDisplay.h"
-#include "../Custom/CustomStruct.h"
+#include "../Public/UI/PartyCharDisplay.h"
+#include "../Public/Custom/CustomStruct.h"
 #include "../GI_Archive.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
