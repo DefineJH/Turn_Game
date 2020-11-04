@@ -12,3 +12,8 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
+/Intermediate
+/Saved
+/Turn_Game.sln
+/.vs
+*_BuiltData.uasset
