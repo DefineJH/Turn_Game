@@ -20,8 +20,13 @@ class TURN_GAME_API USubMenuInventory : public USubMenuParent
 	
 protected:
 
+	uint8 CurrentPage;
+	uint8 MaxPage;
+
 	TArray<UInvenView*> CategoryWidgets;
 
 	virtual void ConstructSubWidget() override;
 	virtual void UpdateSubWidget() override;
+private:
+	void ShowPage(uint8 page);
 };

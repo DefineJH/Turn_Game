@@ -7,13 +7,14 @@
 
 void USubMenuInventory::ConstructSubWidget()
 {
-	uint8 categoryNum = (uint8)EItemType::EIT_MAX;
+	CurrentPage = 0;
+	MaxPage = (uint8)EItemType::EIT_MAX;
 
-	CategoryWidgets.Reserve(categoryNum);
-
-	for (int i = 0; i < categoryNum; i++)
+	for (uint8 i = 0; i < MaxPage; i++)
 	{
 		UInvenView* singleInven = CreateWidget<UInvenView>(this, UInvenView::StaticClass());
+
+		singleInven->ConstructInven((EItemType)i);
 		if (singleInven)
 		{
 			CategoryWidgets.Add(singleInven);
@@ -22,6 +23,11 @@ void USubMenuInventory::ConstructSubWidget()
 }
 
 void USubMenuInventory::UpdateSubWidget()
+{
+
+}
+
+void USubMenuInventory::ShowPage(uint8 page)
 {
 
 }
