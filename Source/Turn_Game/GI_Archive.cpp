@@ -12,7 +12,7 @@
 #include "PaperSprite.h"
 #include "Engine/DataTable.h"
 #include "Turn_GameGameModeBase.h"
-
+#include "Containers/Map.h"
 void UGI_Archive::LoadModels(TArray<FString> CharName)
 {
 	bIsLoadCompleted = false;
@@ -113,14 +113,37 @@ void UGI_Archive::ChangeMainChar(UPARAM(ref)FString& CharName)
 	MainChar = CharName;
 }
 
-FItemInfo& UGI_Archive::GetItemInfo(int32 itemCode)
+const FItemInformation& UGI_Archive::GetItemInfo(int32 itemCode) const
 {
-	return *ItemInfos.FindByPredicate([itemCode](const FItemInfo& info) { return info.ItemCode == itemCode; });
+	return *ItemInfos.FindByPredicate([itemCode](const FItemInformation& info) { return info.ItemCode == itemCode; });
 }
 
-TArray<FItemInfo> UGI_Archive::GetItemInfoByCategory(EItemType type)
+int8 UGI_Archive::GetItemQuantity(int32 itemCode) const
 {
-	return ItemInfos.FilterByPredicate([type](const FItemInfo& info) { return info.type == type; });
+	if (CurItems.Contains(itemCode))
+	{
+		return CurItems[itemCode];
+	}
+	return 0;
+}
+
+TArray<FItemInformation> UGI_Archive::GetItemInfoByCategory(EItemType type)
+{
+	return ItemInfos.FilterByPredicate([type](const FItemInformation& info) { return info.type == type; });
+}
+
+TArray<FItemInformation> UGI_Archive::GetCurItemInfoByCategory(EItemType type)
+{
+	TArray<FItemInformation> itemarr;
+	for (auto& item : CurItems)
+	{
+		FItemInformation tempinfo = GetItemInfo(item.Key);
+		if (tempinfo.type == type)
+		{
+			itemarr.Add(FItemInformation(tempinfo));
+		}
+	}
+	return itemarr;
 }
 
 void UGI_Archive::ConstructModelPath()
@@ -149,17 +172,19 @@ void UGI_Archive::ConstructItemInfo()
 		auto rowStruct = ItemData_DT->GetRowStruct();
 		for (auto& name : rownames)
 		{
-			FItemInfo* temp = ItemData_DT->FindRow<FItemInfo>(name, "");
+			FItemInformation* temp = ItemData_DT->FindRow<FItemInformation>(name, "");
 			if (temp)
 			{
 				ItemInfos.Add(*temp);
 			}
 		}
 	}
-	ItemInfos.Sort([](const FItemInfo& lhs, const FItemInfo& rhs)
+	ItemInfos.Sort([](const FItemInformation& lhs, const FItemInformation& rhs)
 	{
 		return lhs.ItemCode < rhs.ItemCode;
 	});
+
+	UE_LOG(LogTemp, Warning, L"Item info Added %d", ItemInfos.Num());
 }
 
 void UGI_Archive::Init()
@@ -280,8 +305,8 @@ void UGI_Archive::ConstructDefaultData()
 	CurActiveChar = { "Mia" , "Louis", "Eva" };
 	MainChar = "Louis";
 
-	CurItems.Add(1, 2);
-	CurItems.Add(2, 2);
+	CurItems.Emplace(0, 2);
+	CurItems.Emplace(1, 2);
 }
 
 bool UGI_Archive::SaveCurrentData(int idx)
@@ -290,7 +315,6 @@ bool UGI_Archive::SaveCurrentData(int idx)
 	SaveInst->SaveSlotName = L"Slot" + FString::FromInt(idx);
 	SaveInst->SaveIndex = 0;
 	SaveInst->ActiveChar = CurActiveChar;
-	UE_LOG(LogTemp, Warning, L"%s", *MainChar);
 	SaveInst->MainChar = MainChar;
 	SaveInst->Items = CurItems;
 	for (auto& tmp : CurCharInfo)

@@ -12,6 +12,7 @@
  */
 
 class UInvenView;
+class UWidgetSwitcher;
 
 UCLASS()
 class TURN_GAME_API USubMenuInventory : public USubMenuParent
@@ -19,14 +20,18 @@ class TURN_GAME_API USubMenuInventory : public USubMenuParent
 	GENERATED_BODY()
 	
 protected:
-
-	uint8 CurrentPage;
-	uint8 MaxPage;
-
-	TArray<UInvenView*> CategoryWidgets;
-
 	virtual void ConstructSubWidget() override;
 	virtual void UpdateSubWidget() override;
 private:
 	void ShowPage(uint8 page);
+protected:
+	uint8 CurrentPage;
+	uint8 MaxPage;
+	TArray<UInvenView*> ListCategory;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<UInvenView> InvenClass;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UWidgetSwitcher* Switcher;
 };

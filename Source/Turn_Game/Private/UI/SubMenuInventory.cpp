@@ -4,6 +4,7 @@
 #include "../Public/UI/SubMenuInventory.h"
 #include "../Public/UI/InvenView.h"
 #include "../Public/Custom/CusomEnum.h"
+#include "Components/WidgetSwitcher.h"
 
 void USubMenuInventory::ConstructSubWidget()
 {
@@ -12,14 +13,16 @@ void USubMenuInventory::ConstructSubWidget()
 
 	for (uint8 i = 0; i < MaxPage; i++)
 	{
-		UInvenView* singleInven = CreateWidget<UInvenView>(this, UInvenView::StaticClass());
+		UInvenView* singleInven = Cast<UInvenView>(CreateWidget<UUserWidget>(this, InvenClass));
 
-		singleInven->ConstructInven((EItemType)i);
+		singleInven->ConstructList((EItemType)i);
 		if (singleInven)
 		{
-			CategoryWidgets.Add(singleInven);
+			ListCategory.Add(singleInven);
+			Switcher->AddChild(singleInven);
 		}
 	}
+	ShowPage(0);
 }
 
 void USubMenuInventory::UpdateSubWidget()
@@ -29,5 +32,6 @@ void USubMenuInventory::UpdateSubWidget()
 
 void USubMenuInventory::ShowPage(uint8 page)
 {
-
+	Switcher->SetActiveWidgetIndex(page);
+	UE_LOG(LogTemp, Warning, L"Show InvenView0");
 }

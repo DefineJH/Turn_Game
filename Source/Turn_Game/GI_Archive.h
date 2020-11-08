@@ -137,10 +137,16 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
-	FItemInfo& GetItemInfo(int32 itemCode);
+	const FItemInformation& GetItemInfo(int32 itemCode) const;
+
+	int8 GetItemQuantity(int32 itemCode) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
-	TArray<FItemInfo> GetItemInfoByCategory(EItemType type);
+	TArray<FItemInformation> GetItemInfoByCategory(EItemType type);
+
+	
+	UFUNCTION(BlueprintCallable, Category = "Item")
+	TArray<FItemInformation> GetCurItemInfoByCategory(EItemType type);
 
 	//util function - uobject만들어서static function으로 이동
 	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
@@ -202,11 +208,11 @@ protected:
 	/**현재 진행중인 게임의 출전 캐릭터 이름을 담고있는 배열*/
 	TArray<FString> CurActiveChar;
 
-	/**key - code , value - amount*/
-	TMap<int32, int32> CurItems;
-
 	/**게임 상에 존재하는 모든 아이템의 정보를 담고있는 배열*/
-	TArray<FItemInfo> ItemInfos;
+	TArray<FItemInformation> ItemInfos;
+
+	/**key - item code, value - item count*/
+	TMap<int32, uint8> CurItems;
 
 	UPROPERTY(Config)
 	FString MainChar;

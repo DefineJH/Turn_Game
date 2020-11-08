@@ -21,8 +21,8 @@ protected:
 	virtual void UpdateSubWidget() override;
 protected:
 	//캐릭터 한명을 설명하는 위젯에 대한 클래스
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite , Category = "Widget")
-	TSubclassOf<UUserWidget> CharDisplayWidget;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Widget")
+		TSubclassOf<UUserWidget> CharDisplayWidget;
 	//캐릭터 설명들을 담는 버티컬박스
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta =(BindWidget))
 	UScrollBox* LayoutBox;

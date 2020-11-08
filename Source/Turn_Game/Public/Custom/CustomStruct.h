@@ -146,7 +146,7 @@ public:
 };
 
 USTRUCT(Atomic, BlueprintType)
-struct FItemInfo : public FTableRowBase
+struct FItemInformation : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
