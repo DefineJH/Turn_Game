@@ -6,26 +6,27 @@
 #include "GameSaver.h"
 #include "GI_Archive.h"
 
+
+
 void ATurn_GameGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-	Load();
 }
 
-void ATurn_GameGameModeBase::Save()
+void ATurn_GameGameModeBase::Save(int idx)
 {
 	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
 
 }
 
-void ATurn_GameGameModeBase::Load()
+void ATurn_GameGameModeBase::Load(int idx)
 {
 	UGameSaver* LoadGameInstance = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
 
 	if (LoadGameInstance)
 	{
 		LoadGameInstance->SaveSlotName = "MySaveGame";
-		LoadGameInstance->SaveIndex = 0;
+		LoadGameInstance->SaveIndex = idx;
 		LoadGameInstance = Cast<UGameSaver>(UGameplayStatics::LoadGameFromSlot(LoadGameInstance->SaveSlotName, LoadGameInstance->SaveIndex));
 		if (LoadGameInstance)
 		{
@@ -40,6 +41,7 @@ void ATurn_GameGameModeBase::Load()
 
 void ATurn_GameGameModeBase::SetDefaultData()
 {
+	
 	ActiveChar = { "Mia","Louis","Eva" };
 }
 

@@ -6,8 +6,8 @@
 #include "Containers/Queue.h"
 #include <iostream>
 #include <list>
-#include "Custom/CustomStruct.h"
-#include "Custom/CusomEnum.h"
+#include "Public/Custom/CustomStruct.h"
+#include "Public/Custom/CusomEnum.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TurnManager.generated.h"

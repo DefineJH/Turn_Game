@@ -15,8 +15,8 @@ class TURN_GAME_API ATurn_GameGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 public:
-	void Save();
-	void Load();
+	void Save(int idx);
+	void Load(int idx);
 	void SetDefaultData();
 	const TArray<FString> * const GetActiveChar() const;
 	UFUNCTION(BlueprintCallable, Category = "Model")
