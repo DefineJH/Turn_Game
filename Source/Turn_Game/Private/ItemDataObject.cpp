@@ -3,7 +3,7 @@
 
 #include "ItemDataObject.h"
 
-const FItemInformation UItemDataObject::GetInfo() const
+const FItemInformation& UItemDataObject::GetInfo() const
 {
 	return info;
 }

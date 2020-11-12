@@ -60,6 +60,7 @@ public:
 	* @param name - 텍스처의 이름
 	* @return 만약 없을 시 nullptr 반환 ( TOptional로 변경 필요 )
 	*/
+	UFUNCTION(BlueprintCallable, Category = "UI")
 	UTexture2D* GetTextureFromName(FString name) const;
 	/**
 	* Map에 저장된 Sprite를 받아오는 메서드
@@ -149,7 +150,7 @@ public:
 	TArray<FItemInformation> GetCurItemInfoByCategory(EItemType type);
 
 	//util function - uobject만들어서static function으로 이동
-	FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
+	static FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();
