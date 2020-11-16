@@ -2,7 +2,6 @@
 
 
 #include "../Public/UI/PartyCharDisplay.h"
-#include "../Public/Custom/CustomStruct.h"
 #include "../GI_Archive.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"

@@ -25,7 +25,7 @@ void USubMenuParty::ConstructSubWidget()
 
 	if (Archive)
 	{
-		TArray<FCharInfo> infos = Archive->GetCharInfo();
+		TArray<FCharInfo> infos = Archive->GetPartyCharsInfo();
 		// 박스안의 위젯들을 정렬하기 위해 구조체 생성.
 		FSlateChildSize Size(ESlateSizeRule::Fill);
 		Size.Value = 1.0f;

@@ -42,7 +42,7 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 	return optional;
 }
 
-TArray<FCharInfo> UGI_Archive::GetCharInfo() const
+TArray<FCharInfo> UGI_Archive::GetPartyCharsInfo() const
 {
 	TArray<FCharInfo> tempInfo;
 	tempInfo.Reserve(8);

@@ -46,7 +46,8 @@ public:
 	* 파티 UI 구성을 위해 현재 파티에 존재하는 캐릭터의 정보를 받아오는 메서드
 	* @return CurCharInfo 배열에서 파티에 존재하는 캐릭터(bIsInParty)의 정보를 반환
 	*/
-	TArray<FCharInfo> GetCharInfo() const;
+	UFUNCTION(BlueprintCallable, Category = "Info")
+	TArray<FCharInfo> GetPartyCharsInfo() const;
 
 	/**
 	* 파티 UI 구성을 위해 현재 파티에 존재하는 캐릭터의 정보를 받아오는 메서드

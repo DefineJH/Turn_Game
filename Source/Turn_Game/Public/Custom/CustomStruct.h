@@ -160,4 +160,6 @@ public:
 	FString ItemDesc;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<EStatusType, int32> ItemStat;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bCanUse;
 };
