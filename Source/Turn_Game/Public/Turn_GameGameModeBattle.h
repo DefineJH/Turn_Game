@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "SubMenuParent.generated.h"
+#include "GameFramework/GameModeBase.h"
+#include "Turn_GameGameModeBattle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TURN_GAME_API USubMenuParent : public UUserWidget
+class TURN_GAME_API ATurn_GameGameModeBattle : public AGameModeBase
 {
 	GENERATED_BODY()
 	
