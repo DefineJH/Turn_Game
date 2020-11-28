@@ -119,6 +119,11 @@ struct FCharInfo : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
+	void IncreaseHP(int32 Amount);
+	void IncreaseSP(int32 Amount);
+	void DecreaseHP(int32 Amount);
+	void DecreaseSP(int32 Amount);
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

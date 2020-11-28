@@ -6,6 +6,8 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
+#include "Components/Button.h"
+#include "Components/MenuAnchor.h"
 #include "PaperSprite.h"
 
 void UPartyCharDisplay::ConstructByData(FCharInfo info, UGI_Archive* archive)
@@ -47,3 +49,4 @@ void UPartyCharDisplay::ConstructByData(TOptional<FCharInfo> info, UGI_Archive* 
 		ConstructByData(*info, archive);
 	}
 }
+

@@ -16,3 +16,8 @@ void USubMenuParent::UpdateSubWidget()
 {
 
 }
+
+void USubMenuParent::SetInitalFocus()
+{
+
+}

@@ -50,11 +50,14 @@ public:
 	TArray<FCharInfo> GetPartyCharsInfo() const;
 
 	/**
-	* 파티 UI 구성을 위해 현재 파티에 존재하는 캐릭터의 정보를 받아오는 메서드
+	* 현재 파티에 존재하는 캐릭터의 정보를 받아오는 메서드
 	* @return CurCharInfo 배열에서 파티에 존재하는 캐릭터(bIsInParty)의 정보를 반환
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Info")
-	FCharInfo GetCharInfo(FString CharName) const;
+	const FCharInfo& GetCharInfo(FString CharName) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Info")
+	bool SetCharInfo(FCharInfo CharInfo);
 
 	/**
 	* Map에 저장된 Texture를 받아오는 메서드
@@ -145,13 +148,14 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	TArray<FItemInformation> GetItemInfoByCategory(EItemType type);
-
 	
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	TArray<FItemInformation> GetCurItemInfoByCategory(EItemType type);
 
 	//util function - uobject만들어서static function으로 이동
 	static FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
+
+	bool UseItem(int32 itemcode, FString TargetChar);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();

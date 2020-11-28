@@ -5,6 +5,7 @@
 #include "../Public/UI/SubMenuParty.h"
 #include "../Public/UI/SubMenuSave.h"
 #include "../Public/UI/SubMenuInventory.h"
+#include "Components/Button.h"
 
 bool UPauseMenu::GetIsRoot()
 {
@@ -18,6 +19,8 @@ void UPauseMenu::RemoveSubMenu()
 {
 	CurrentMenu->RemoveFromViewport();
 	CurrentMenu = nullptr;
+	this->AddToViewport(0);
+	SetFocus();
 }
 
 bool UPauseMenu::Initialize()
@@ -46,6 +49,7 @@ bool UPauseMenu::Initialize()
 
 void UPauseMenu::ViewPartyMenu()
 {
+	this->RemoveFromViewport();
 	PartyMenu->AddToViewport(1);
 	PartyMenu->SetVisibility(ESlateVisibility::Visible);
 	CurrentMenu = PartyMenu;
@@ -54,6 +58,7 @@ void UPauseMenu::ViewPartyMenu()
 
 void UPauseMenu::ViewSaveMenu()
 {
+	this->RemoveFromViewport();
 	SaveMenu->AddToViewport(1);
 	SaveMenu->SetVisibility(ESlateVisibility::Visible);
 	CurrentMenu = SaveMenu;
@@ -62,10 +67,25 @@ void UPauseMenu::ViewSaveMenu()
 
 void UPauseMenu::ViewInvenMenu()
 {
+	this->RemoveFromViewport();
 	InvenMenu->AddToViewport(1);
 	InvenMenu->SetVisibility(ESlateVisibility::Visible);
 	CurrentMenu = InvenMenu;
 	UpdateCurMenu();
+}
+
+void UPauseMenu::DisableFocus()
+{
+	PartyBtn->IsFocusable = false;
+}
+
+void UPauseMenu::SetFocus()
+{
+	if (PartyBtn)
+	{
+		UE_LOG(LogTemp, Warning, L"BtnAble");
+		PartyBtn->SetKeyboardFocus();
+	}
 }
 
 void UPauseMenu::UpdateCurMenu()

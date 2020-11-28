@@ -55,10 +55,21 @@ TArray<FCharInfo> UGI_Archive::GetPartyCharsInfo() const
 	return tempInfo;
 }
 
-FCharInfo UGI_Archive::GetCharInfo(FString CharName) const
+const FCharInfo& UGI_Archive::GetCharInfo(FString CharName) const
 {
 	check(CurCharInfo.Contains(CharName));
 	return CurCharInfo[CharName];
+}
+
+bool UGI_Archive::SetCharInfo(FCharInfo CharInfo)
+{
+	FCharInfo* info = CurCharInfo.Find(CharInfo.Name);
+	if (info)
+	{
+		*info = CharInfo;
+		return true;
+	}
+	return false;
 }
 
 bool UGI_Archive::SetActiveChar(UPARAM(ref)FString & CharName)
@@ -184,7 +195,6 @@ void UGI_Archive::ConstructItemInfo()
 		return lhs.ItemCode < rhs.ItemCode;
 	});
 
-	UE_LOG(LogTemp, Warning, L"Item info Added %d", ItemInfos.Num());
 }
 
 void UGI_Archive::Init()
@@ -360,6 +370,30 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 }
 
 
+
+bool UGI_Archive::UseItem(int32 itemcode, FString TargetChar)
+{
+	FItemInformation info = GetItemInfo(itemcode);
+	FCharInfo CharInfo = GetCharInfo(TargetChar);
+	if (info.bCanUse)
+	{
+		for (auto tuple : info.ItemStat)
+		{
+			switch (tuple.Key)
+			{
+			case EStatusType::EST_HP:
+				CharInfo.IncreaseHP(tuple.Value);
+				break;
+			case EStatusType::EST_SP:
+				CharInfo.IncreaseSP(tuple.Value);
+				break;
+			}
+		}
+		if (SetCharInfo(std::move(CharInfo)))
+			return true;
+	}
+	return false;
+}
 
 TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName) const
 {

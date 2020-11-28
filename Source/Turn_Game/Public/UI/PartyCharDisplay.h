@@ -14,7 +14,10 @@
 class UImage;
 class UTextBlock;
 class UProgressBar;
+class UButton;
+class UMenuAnchor;
 class UGI_Archive;
+
 
 UCLASS()
 class TURN_GAME_API UPartyCharDisplay : public UUserWidget
@@ -50,4 +53,8 @@ protected:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UProgressBar* Progress_EXP;
 
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UButton* CharBtn;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UMenuAnchor* DropDown;
 };

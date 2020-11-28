@@ -26,16 +26,11 @@ class TURN_GAME_API UInvenView : public UUserWidget
 public:
 	void ConstructList(EItemType CategoryType);
 	UFUNCTION(BlueprintCallable, Category = "UI")
-	void ToggleUse();
-	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SelectItem(UItemDataObject* SelectedItem);
+	void SetFocus();
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UListView* ItemListView;
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UWidgetSwitcher* LeftSwitcher;
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UScrollBox* CharBox;
 	UPROPERTY(BlueprintReadWrite)
 	FItemInformation ItemData;
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
