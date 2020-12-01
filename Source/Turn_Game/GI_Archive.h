@@ -50,6 +50,14 @@ public:
 	TArray<FCharInfo> GetPartyCharsInfo() const;
 
 	/**
+	* 배틀 씬 구성을 위해 현재 출전중인 캐릭터의 정보를 받아오는 메서드
+	* @return CurCharInfo 배열에서 파티에 존재하는 캐릭터(bIsActive)의 정보를 반환
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Info")
+	TArray<FCharInfo> GetActiveCharsInfo() const;
+
+
+	/**
 	* 현재 파티에 존재하는 캐릭터의 정보를 받아오는 메서드
 	* @return CurCharInfo 배열에서 파티에 존재하는 캐릭터(bIsInParty)의 정보를 반환
 	*/
@@ -101,6 +109,7 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	FORCEINLINE FString GetMainChar() const { return MainChar; }
+
 	/**
 	* DefaultCharData_DT에 존재하는 캐릭터의 기본 데이터를 FCharInfo로 반환
 	* @param CharName - 기본 데이터를 가져올 캐릭터 이름
@@ -144,17 +153,32 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	const FItemInformation& GetItemInfo(int32 itemCode) const;
 
+	/**
+	* 현재 보유하고 있는 아이템의 개수
+	* @param itemCode - 아이템 코드
+	* @return 아이템 수량
+	*/
 	int8 GetItemQuantity(int32 itemCode) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	TArray<FItemInformation> GetItemInfoByCategory(EItemType type);
-	
+
+	/**
+	* 현재 보유하고 있는 아이템을 카테고리별로 반환
+	* @param type - 아이템 타입 열거형
+	* @return 아이템 인포메이션 구조체가 담긴 배열
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	TArray<FItemInformation> GetCurItemInfoByCategory(EItemType type);
 
 	//util function - uobject만들어서static function으로 이동
 	static FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
 
+	/**
+	* 아이템을 지정한 플레이어에 사용
+	* @param type - 아이템 타입 열거형
+	* @return 아이템 인포메이션 구조체가 담긴 배열
+	*/
 	bool UseItem(int32 itemcode, FString TargetChar);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/

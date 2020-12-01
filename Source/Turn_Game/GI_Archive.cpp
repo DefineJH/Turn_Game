@@ -55,6 +55,19 @@ TArray<FCharInfo> UGI_Archive::GetPartyCharsInfo() const
 	return tempInfo;
 }
 
+TArray<FCharInfo> UGI_Archive::GetActiveCharsInfo() const
+{
+	TArray<FCharInfo> tempInfo;
+	tempInfo.Reserve(5);
+
+	for (auto& tmp : CurCharInfo)
+	{
+		if (tmp.Value.bIsActive)
+			tempInfo.Add(tmp.Value);
+	}
+	return tempInfo;
+}
+
 const FCharInfo& UGI_Archive::GetCharInfo(FString CharName) const
 {
 	check(CurCharInfo.Contains(CharName));
@@ -373,24 +386,30 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 
 bool UGI_Archive::UseItem(int32 itemcode, FString TargetChar)
 {
-	FItemInformation info = GetItemInfo(itemcode);
-	FCharInfo CharInfo = GetCharInfo(TargetChar);
-	if (info.bCanUse)
+	if (CurItems.Contains(itemcode) && GetItemQuantity(itemcode) >= 1)
 	{
-		for (auto tuple : info.ItemStat)
+		FItemInformation info = GetItemInfo(itemcode);
+		FCharInfo CharInfo = GetCharInfo(TargetChar);
+		if (info.bCanUse)
 		{
-			switch (tuple.Key)
+			for (auto tuple : info.ItemStat)
 			{
-			case EStatusType::EST_HP:
-				CharInfo.IncreaseHP(tuple.Value);
-				break;
-			case EStatusType::EST_SP:
-				CharInfo.IncreaseSP(tuple.Value);
-				break;
+				switch (tuple.Key)
+				{
+				case EStatusType::EST_HP:
+					CharInfo.IncreaseHP(tuple.Value);
+					break;
+				case EStatusType::EST_SP:
+					CharInfo.IncreaseSP(tuple.Value);
+					break;
+				}
+			}
+			if (SetCharInfo(std::move(CharInfo)))
+			{
+				CurItems[itemcode] -= 1;
+				return true;
 			}
 		}
-		if (SetCharInfo(std::move(CharInfo)))
-			return true;
 	}
 	return false;
 }
