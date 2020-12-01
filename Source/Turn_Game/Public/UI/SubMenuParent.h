@@ -20,4 +20,7 @@ public:
 	* 이 위젯을 상속받은 자식 위젯들이 UI수정을 하여 다시 UI를 로딩하는 메서드
 	*/
 	virtual void UpdateSubWidget();
+
+	virtual void SetInitalFocus();
+
 };

@@ -16,7 +16,6 @@ void ATurn_GameGameModeBase::BeginPlay()
 void ATurn_GameGameModeBase::Save(int idx)
 {
 	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
-
 }
 
 void ATurn_GameGameModeBase::Load(int idx)

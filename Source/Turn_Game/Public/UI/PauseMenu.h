@@ -13,6 +13,7 @@
  */
 
 class UUserWidget;
+class UButton;
 
 UCLASS()
 class TURN_GAME_API UPauseMenu : public UUserWidget
@@ -23,6 +24,7 @@ public:
 	void RemoveSubMenu();
 	UFUNCTION(BlueprintCallable)
 	void UpdateCurMenu();
+	void SetFocus();
 protected:
 	virtual bool Initialize() override;
 
@@ -38,6 +40,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void ViewInvenMenu();
 
+private:
+	void DisableFocus();
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widget")
@@ -52,4 +56,7 @@ protected:
 	USubMenuParent* InvenMenu;
 
 	USubMenuParent* CurrentMenu;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UButton* PartyBtn;
 };
