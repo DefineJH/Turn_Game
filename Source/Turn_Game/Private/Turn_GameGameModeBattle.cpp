@@ -2,4 +2,11 @@
 
 
 #include "Turn_GameGameModeBattle.h"
+#include "Kismet/GameplayStatics.h"
 
+void ATurn_GameGameModeBattle::BeginPlay()
+{
+	Super::BeginPlay();
+
+	
+}

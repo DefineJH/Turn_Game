@@ -12,7 +12,6 @@
  */
 
 class UListView;
-class UTextBlock;
 class USingleItem;
 UCLASS()
 class TURN_GAME_API UInvenView : public UUserWidget
@@ -24,6 +23,4 @@ protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UListView* ItemListView;
 
-	UPROPERTY(EditDefaultsOnly ,BlueprintReadWrite, meta = (BindWidget))
-	UTextBlock* Text_Category;
 };

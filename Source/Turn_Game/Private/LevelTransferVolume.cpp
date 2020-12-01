@@ -13,6 +13,7 @@ ALevelTransferVolume::ALevelTransferVolume()
 	TransferVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("TransferVolume"));
 	RootComponent = TransferVolume;
 	TransferVolume->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
+
 }
 
 // Called when the game starts or when spawned

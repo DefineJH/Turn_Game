@@ -53,6 +53,7 @@ TArray<FCharInfo> UGI_Archive::GetCharInfo() const
 			tempInfo.Add(tmp.Value);
 	}
 	return tempInfo;
+
 }
 
 FCharInfo UGI_Archive::GetCharInfo(FString CharName) const

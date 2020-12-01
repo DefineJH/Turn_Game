@@ -77,3 +77,8 @@ void ATurnManager::RemoveAllTurnInfo(void)
 	}
 
 }
+
+void ATurnManager::SelectAction(EActionState eAction)
+{
+
+}

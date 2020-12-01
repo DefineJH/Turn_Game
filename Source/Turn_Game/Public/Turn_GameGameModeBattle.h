@@ -13,5 +13,7 @@ UCLASS()
 class TURN_GAME_API ATurn_GameGameModeBattle : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void BeginPlay() override;
 };

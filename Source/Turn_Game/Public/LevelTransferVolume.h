@@ -24,7 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	virtual void NotifyActorBeginOverlap(AActor* otherActor) override;
 
 private:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
@@ -32,4 +32,5 @@ private:
 
 	UPROPERTY()
 		class UBoxComponent* TransferVolume;
+
 };

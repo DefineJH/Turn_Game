@@ -23,14 +23,14 @@ class TURN_GAME_API UCusomEnum : public UObject
 // 또한 UENUM은 uint8만을 지원하기 때문에 이부분도 빠뜨리지 않아야 함.
 
 // ps. enum와 enum class의 차이점이 적힌 블로그 보고 어떤걸 쓰기원하는지 판단해줘 https://unikys.tistory.com/376
-
 UENUM(BlueprintType)
 enum class EActionState : uint8
 {
 	E_Attack 	UMETA(DisplayName = "Attack"),
 	E_Guard		UMETA(DisplayName = "Guard"),
 	E_Skill		UMETA(DisplayName = "Skill"),
-	E_Item		UMETA(DisplayName = "Item")
+	E_Item		UMETA(DisplayName = "Item"),
+	E_Run		UMETA(DisplayName = "Run"),
 };
 
 UENUM(BlueprintType)
@@ -54,12 +54,12 @@ enum class EElementalType : uint8
 };
 
 UENUM(BlueprintType)
-enum class EItemType : uint8 
+enum class EItemType : uint8
 {
 	EIT_Use			UMETA(DisplayName = "Use"),
 	EIT_Skill		UMETA(DisplayName = "Skill"),
 	EIT_Quest		UMETA(DisplayName = "Quest"),
-	EIT_MAX			UMETA(DisplayName = "MAX")
+	EIT_MAX			UMETA(DisplayName = "MAX"),
 };
 
 UENUM(BlueprintType)
@@ -67,5 +67,13 @@ enum class EEquipType : uint8
 {
 	EET_Weapon			UMETA(DisplayName = "Weapon"),
 	EET_Protective		UMETA(DisplayName = "Protective"),
+};
+
+UENUM(BlueprintType)
+enum class EStatusType : uint8
+{
+	EST_HP				UMETA(DisplayName = "HP"),
+	EST_SP				UMETA(DisplayName = "SP"),
+	EST_MAX				UMETA(DisplayName = "MAX"),
 };
 

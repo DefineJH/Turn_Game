@@ -10,12 +10,13 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class TURN_GAME_API UItemDataObject : public UObject
 {
 	GENERATED_BODY()
 public:
-	const FItemInformation GetInfo() const;
+	UFUNCTION(BlueprintCallable, Category = "Item")
+	const FItemInformation& GetInfo() const;
 	void SetInfo(FItemInformation inInfo);
 private:
 	FItemInformation info;

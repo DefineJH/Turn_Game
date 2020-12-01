@@ -6,7 +6,6 @@
 #include "../Public/ItemDataObject.h"
 #include "../GI_Archive.h"
 #include "Components/ListView.h"
-#include "Components/TextBlock.h"
 
 void UInvenView::ConstructList(EItemType CategoryType)
 {
@@ -24,6 +23,5 @@ void UInvenView::ConstructList(EItemType CategoryType)
 			else
 				UE_LOG(LogTemp, Warning, L"list didnt created");
 		}
-		Text_Category->SetText(FText::FromString(arch->GetFStringFromEnum("EItemType", (int32)CategoryType)));
 	}
 }

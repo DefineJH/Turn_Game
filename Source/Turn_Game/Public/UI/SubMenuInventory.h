@@ -12,6 +12,8 @@
  */
 
 class UInvenView;
+class UButton;
+class UTextBlock;
 class UWidgetSwitcher;
 
 UCLASS()
@@ -22,8 +24,14 @@ class TURN_GAME_API USubMenuInventory : public USubMenuParent
 protected:
 	virtual void ConstructSubWidget() override;
 	virtual void UpdateSubWidget() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void NextPage();
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void PrevPage();
 private:
-	void ShowPage(uint8 page);
+	void ShowPage();
+	void SetButtonVisibility();
 protected:
 	uint8 CurrentPage;
 	uint8 MaxPage;
@@ -34,4 +42,13 @@ protected:
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UWidgetSwitcher* Switcher;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* Category;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UButton* PrevBtn;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UButton* NextBtn;
 };
