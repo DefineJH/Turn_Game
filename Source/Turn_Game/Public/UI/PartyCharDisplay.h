@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "../Public/Custom/CustomStruct.h"
 #include "PartyCharDisplay.generated.h"
 
 /**
@@ -13,14 +14,17 @@
 class UImage;
 class UTextBlock;
 class UProgressBar;
+class UButton;
+class UMenuAnchor;
 class UGI_Archive;
-struct FCharInfo;
+
 
 UCLASS()
 class TURN_GAME_API UPartyCharDisplay : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintCallable)
 	void ConstructByData(FCharInfo info, UGI_Archive* archive);
 
 	void ConstructByData(TOptional<FCharInfo> info, UGI_Archive* archive);
@@ -49,4 +53,8 @@ protected:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UProgressBar* Progress_EXP;
 
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UButton* CharBtn;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UMenuAnchor* DropDown;
 };

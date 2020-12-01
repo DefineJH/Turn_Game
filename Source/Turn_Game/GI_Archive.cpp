@@ -42,7 +42,7 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 	return optional;
 }
 
-TArray<FCharInfo> UGI_Archive::GetCharInfo() const
+TArray<FCharInfo> UGI_Archive::GetPartyCharsInfo() const
 {
 	TArray<FCharInfo> tempInfo;
 	tempInfo.Reserve(8);
@@ -56,10 +56,34 @@ TArray<FCharInfo> UGI_Archive::GetCharInfo() const
 
 }
 
-FCharInfo UGI_Archive::GetCharInfo(FString CharName) const
+TArray<FCharInfo> UGI_Archive::GetActiveCharsInfo() const
+{
+	TArray<FCharInfo> tempInfo;
+	tempInfo.Reserve(5);
+
+	for (auto& tmp : CurCharInfo)
+	{
+		if (tmp.Value.bIsActive)
+			tempInfo.Add(tmp.Value);
+	}
+	return tempInfo;
+}
+
+const FCharInfo& UGI_Archive::GetCharInfo(FString CharName) const
 {
 	check(CurCharInfo.Contains(CharName));
 	return CurCharInfo[CharName];
+}
+
+bool UGI_Archive::SetCharInfo(FCharInfo CharInfo)
+{
+	FCharInfo* info = CurCharInfo.Find(CharInfo.Name);
+	if (info)
+	{
+		*info = CharInfo;
+		return true;
+	}
+	return false;
 }
 
 bool UGI_Archive::SetActiveChar(UPARAM(ref)FString & CharName)
@@ -185,7 +209,6 @@ void UGI_Archive::ConstructItemInfo()
 		return lhs.ItemCode < rhs.ItemCode;
 	});
 
-	UE_LOG(LogTemp, Warning, L"Item info Added %d", ItemInfos.Num());
 }
 
 void UGI_Archive::Init()
@@ -361,6 +384,36 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 }
 
 
+
+bool UGI_Archive::UseItem(int32 itemcode, FString TargetChar)
+{
+	if (CurItems.Contains(itemcode) && GetItemQuantity(itemcode) >= 1)
+	{
+		FItemInformation info = GetItemInfo(itemcode);
+		FCharInfo CharInfo = GetCharInfo(TargetChar);
+		if (info.bCanUse)
+		{
+			for (auto tuple : info.ItemStat)
+			{
+				switch (tuple.Key)
+				{
+				case EStatusType::EST_HP:
+					CharInfo.IncreaseHP(tuple.Value);
+					break;
+				case EStatusType::EST_SP:
+					CharInfo.IncreaseSP(tuple.Value);
+					break;
+				}
+			}
+			if (SetCharInfo(std::move(CharInfo)))
+			{
+				CurItems[itemcode] -= 1;
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName) const
 {
