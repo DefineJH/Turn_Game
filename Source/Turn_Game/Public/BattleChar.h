@@ -13,6 +13,7 @@ class UCapsuleComponent;
 UENUM(BlueprintType)
 enum class EPlayerType : uint8
 {
+	E_None		UMETA(DisplayName = "None"),
 	E_Player	UMETA(DisplayName = "Player"),
 	E_Enemy		UMETA(DisplayName = "Enemy")
 };

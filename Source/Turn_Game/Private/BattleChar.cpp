@@ -34,6 +34,10 @@ void ABattleChar::BeginPlay()
 	UGI_Archive* Arch = Cast<UGI_Archive>(GetGameInstance());
 	if (Arch)
 	{
+		// 몬스터일 경우, Yakumo를 입히게하고, 
+		if(eType == EPlayerType::E_Enemy)
+			SetCharMesh("Yakumo");
+
 		SetCharMesh("Mia");
 	}
 }
