@@ -33,10 +33,12 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 	TOptional<USkeletalMesh*> optional;
 	if (ModelArchive.Contains(name))
 	{
+		UE_LOG(LogTemp, Warning, L"%s model Exist", *name);
 		optional = ModelArchive[name];
 	}
 	else
 	{
+		UE_LOG(LogTemp, Warning, L"%s model doesnt Exist", *name);
 		LoadModels({ name });
 	}
 	return optional;
@@ -251,6 +253,7 @@ void UGI_Archive::OnMeshLoadCompleted()
 			FString name = mesh->GetName();
 
 			name.Split("_", nullptr, &Last);
+			UE_LOG(LogTemp, Warning, L"%s model Add to arch", *Last);
 			ModelArchive.Add(Last, mesh);
 		}
 	}

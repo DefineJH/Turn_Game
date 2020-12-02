@@ -25,10 +25,7 @@ public:
 protected:
 	virtual void ConstructSubWidget() override;
 	virtual void UpdateSubWidget() override;
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void NextPage();
 	UFUNCTION(BlueprintCallable, Category = "Inventory")

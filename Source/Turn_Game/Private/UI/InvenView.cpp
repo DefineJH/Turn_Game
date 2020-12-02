@@ -7,9 +7,6 @@
 #include "../GI_Archive.h"
 #include "../Public/UI/PartyCharDisplay.h"
 #include "Components/ListView.h"
-<<<<<<< HEAD
-
-=======
 #include "Components/ScrollBox.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/WidgetSwitcherSlot.h"
@@ -18,7 +15,7 @@
 #include "Components/Button.h"
 #include "Components/ScrollBoxSlot.h"
 #include "Blueprint/WidgetTree.h"
->>>>>>> master
+
 void UInvenView::ConstructList(EItemType CategoryType)
 {
 	LeftSwitch = false;

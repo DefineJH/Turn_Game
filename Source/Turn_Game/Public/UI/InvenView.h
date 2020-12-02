@@ -31,13 +31,9 @@ public:
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UListView* ItemListView;
-<<<<<<< HEAD
-
-=======
 	UPROPERTY(BlueprintReadWrite)
 	FItemInformation ItemData;
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TSubclassOf<UUserWidget> MiniChar;
 	bool LeftSwitch;
->>>>>>> master
 };

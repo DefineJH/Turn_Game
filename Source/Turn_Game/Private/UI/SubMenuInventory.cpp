@@ -8,15 +8,12 @@
 #include <Components/TextBlock.h>
 #include <../GI_Archive.h>
 #include <Components/Button.h>
-<<<<<<< HEAD
-=======
 
 void USubMenuInventory::SetInitalFocus()
 {
 	UInvenView* currentView = Cast<UInvenView>(ListCategory[CurrentPage]);
 	currentView->SetFocus();
 }
->>>>>>> master
 
 void USubMenuInventory::ConstructSubWidget()
 {
@@ -53,7 +50,6 @@ void USubMenuInventory::NextPage()
 }
 
 void USubMenuInventory::PrevPage()
-<<<<<<< HEAD
 {
 	if (CurrentPage > 0)
 		CurrentPage--;
@@ -62,16 +58,6 @@ void USubMenuInventory::PrevPage()
 
 void USubMenuInventory::ShowPage()
 {
-=======
-{
-	if (CurrentPage > 0)
-		CurrentPage--;
-	ShowPage();
-}
-
-void USubMenuInventory::ShowPage()
-{
->>>>>>> master
 	Category->SetText(FText::FromString(UGI_Archive::GetFStringFromEnum("EItemType", CurrentPage)));
 	Switcher->SetActiveWidgetIndex(CurrentPage);
 	SetButtonVisibility();

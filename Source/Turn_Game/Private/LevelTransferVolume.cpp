@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "LevelTransferVolume.h"
 #include "Engine/Classes/Components/BoxComponent.h"
 #include "Kismet/GamePlayStatics.h"
-#include "LevelTransferVolume.h"
 
 // Sets default values
 ALevelTransferVolume::ALevelTransferVolume()

@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+//#include "GameFramework/FloatingPawnMovement.h"
 #include "BattleChar.generated.h"
 
+class USkeletalMeshComponent;
+class UCapsuleComponent;
 
 UENUM(BlueprintType)
 enum class EPlayerType : uint8
@@ -32,7 +35,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	UFUNCTION(BlueprintCallable, Category = "Mesh")
+		void SetCharMesh(FString CharName);
 
 protected:
 	EPlayerType eType;
+
+public:
+	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Collision")
+		UCapsuleComponent*		CapsuleComp;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Mesh")
+		USkeletalMeshComponent*	MeshComp;
 };

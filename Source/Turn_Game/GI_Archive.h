@@ -173,8 +173,6 @@ public:
 
 	//util function - uobject만들어서static function으로 이동
 	static FString GetFStringFromEnum(FString StrEnumClass,int32 Value);
-<<<<<<< HEAD
-=======
 
 	/**
 	* 아이템을 지정한 플레이어에 사용
@@ -182,7 +180,7 @@ public:
 	* @return 아이템 인포메이션 구조체가 담긴 배열
 	*/
 	bool UseItem(int32 itemcode, FString TargetChar);
->>>>>>> master
+
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();
