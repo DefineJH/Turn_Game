@@ -16,6 +16,7 @@
 void UGI_Archive::LoadModels(TArray<FString> CharName)
 {
 	bIsLoadCompleted = false;
+	LoadChars = CharName;
 	auto& assetLoader = UAssetManager::GetStreamableManager();
 	TArray<FSoftObjectPath> toStream;
 	for (auto& name : CharName)
@@ -44,6 +45,35 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 	return optional;
 }
 
+void UGI_Archive::OnMeshLoadCompleted()
+{
+	bIsLoadCompleted = true;
+
+	TArray<UObject*> loaded;
+	FString Last;
+
+	StreamHandle.Get()->GetLoadedAssets(loaded);
+
+	for (auto elem : loaded)
+	{
+		if (elem)
+		{
+			USkeletalMesh* mesh = Cast<USkeletalMesh>(elem);
+			FString name = mesh->GetName();
+
+			name.Split("_", nullptr, &Last);
+			ModelArchive.Add(Last, mesh);
+		}
+	}
+
+	StreamHandle.Get()->ReleaseHandle();
+	
+	if (MeshLoadDelegate.IsBound())
+	{
+		MeshLoadDelegate.Execute(LoadChars);
+		MeshLoadDelegate.Unbind();
+	}
+}
 TArray<FCharInfo> UGI_Archive::GetPartyCharsInfo() const
 {
 	TArray<FCharInfo> tempInfo;
@@ -235,37 +265,7 @@ void UGI_Archive::Init()
 }
 
 
-void UGI_Archive::OnMeshLoadCompleted()
-{
-	bIsLoadCompleted = true;
 
-	TArray<UObject*> loaded;
-
-	FString Last;
-
-	StreamHandle.Get()->GetLoadedAssets(loaded);
-
-	for (auto elem : loaded)
-	{
-		if (elem)
-		{
-			USkeletalMesh* mesh = Cast<USkeletalMesh>(elem);
-			FString name = mesh->GetName();
-
-			name.Split("_", nullptr, &Last);
-			UE_LOG(LogTemp, Warning, L"%s model Add to arch", *Last);
-			ModelArchive.Add(Last, mesh);
-		}
-	}
-
-	StreamHandle.Get()->ReleaseHandle();
-
-	if (MeshLoadDelegate.IsBound())
-	{
-		MeshLoadDelegate.Execute(Last);
-		MeshLoadDelegate.Unbind();
-	}
-}
 
 
 UTexture2D* UGI_Archive::GetTextureFromName(FString name) const

@@ -15,7 +15,7 @@
  */
 
  /**캐릭터 비동기 로딩 끝날 시 Execute 되는 델리게이트 */
-DECLARE_DELEGATE_OneParam(FMeshLoadCompleteSignature, const FString&);
+DECLARE_DELEGATE_OneParam(FMeshLoadCompleteSignature, const TArray<FString>&);
 
 class USkeletalMesh;
 class UDataTable;
@@ -252,6 +252,8 @@ private:
 	TSharedPtr<FStreamableHandle> StreamHandle;
 
 	const char MaxSaveSlot = 3;
+
+	TArray<FString> LoadChars;
 };
 
 
