@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+class ABattleChar;
+
 UCLASS()
 class TURN_GAME_API ATurn_GameGameModeBattle : public AGameModeBase
 {
@@ -16,4 +19,15 @@ class TURN_GAME_API ATurn_GameGameModeBattle : public AGameModeBase
 
 protected:
 	virtual void BeginPlay() override;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Model")
+		USkeletalMesh* GetCharMesh(FString CharName, ABattleChar* ToSet);
+
+protected:
+	UFUNCTION(BlueprintCallable)
+		virtual void SetCharMesh(const TArray<FString>& CharName);
+
+private:
+	ABattleChar* MeshLoadChar;
 };

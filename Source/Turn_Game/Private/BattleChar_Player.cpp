@@ -3,3 +3,12 @@
 
 #include "BattleChar_Player.h"
 
+ABattleChar_Player::ABattleChar_Player()
+{
+	eType = EPlayerType::E_Player;
+}
+
+void ABattleChar_Player::BeginPlay()
+{
+	Super::BeginPlay();
+}

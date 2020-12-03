@@ -19,6 +19,8 @@ ABattleChar::ABattleChar()
 	RootComponent = CapsuleComp;
 	MeshComp->SetupAttachment(CapsuleComp);	// ()안에있는 Component를 부모로 만드는 함수
 
+	MeshComp->SetRelativeLocation(FVector(0.0f, 0.0f, -88.0f));		// 콜라이더의 위치와 메쉬의 위치를 맞추기 위해서 캡슐의 세로길이만큼 내려줌.
+
 	CapsuleComp->SetCapsuleHalfHeight(88.0f);	// 캡슐의 세로길이?
 	CapsuleComp->SetCapsuleRadius(34.0f);		// 캡슐의 가로둘레?
 

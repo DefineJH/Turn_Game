@@ -13,5 +13,11 @@ UCLASS()
 class TURN_GAME_API ABattleChar_Player : public ABattleChar
 {
 	GENERATED_BODY()
-	
+
+public:
+	ABattleChar_Player();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 };
