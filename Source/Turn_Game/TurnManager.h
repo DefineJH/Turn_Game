@@ -40,6 +40,10 @@ public:
 	virtual void RemoveAllTurnInfo(void);
 
 public:
+	UFUNCTION(BlueprintCallable)
+	virtual void SelectAction(EActionState eAction);
+
+public:
 	TArray<FTurnInfo*>	m_ArrTurnMgr;		// TurnManager
 	TMap<int32, FTurnInfo*> m_MapTurnMgr;	// TurnManger
 	TQueue<int>			m_Que;

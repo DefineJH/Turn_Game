@@ -29,7 +29,5 @@ protected:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* ItemName;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
-	UTextBlock* ItemDesc;
-	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* ItemQuantity;
 };

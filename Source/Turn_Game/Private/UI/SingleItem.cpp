@@ -23,7 +23,6 @@ void USingleItem::NativeOnListItemObjectSet(UObject * ItemObj)
 			ItemQuantity->SetText(FText::FromString(FString::FromInt(arch->GetItemQuantity(info.ItemCode))));
 			ItemImage->SetBrushFromTexture(arch->GetTextureFromName(FString::FromInt(info.ItemCode)));
 			ItemName->SetText(FText::FromString(info.ItemName));
-			ItemDesc->SetText(FText::FromString(info.ItemDesc));
 		}
 	}
 }

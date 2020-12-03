@@ -20,7 +20,8 @@ UCLASS()
 class TURN_GAME_API USubMenuInventory : public USubMenuParent
 {
 	GENERATED_BODY()
-	
+public:
+	virtual void SetInitalFocus() override;
 protected:
 	virtual void ConstructSubWidget() override;
 	virtual void UpdateSubWidget() override;

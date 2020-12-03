@@ -29,7 +29,8 @@ enum class EActionState : uint8
 	E_Attack 	UMETA(DisplayName = "Attack"),
 	E_Guard		UMETA(DisplayName = "Guard"),
 	E_Skill		UMETA(DisplayName = "Skill"),
-	E_Item		UMETA(DisplayName = "Item")
+	E_Item		UMETA(DisplayName = "Item"),
+	E_Run		UMETA(DisplayName = "Run"),
 };
 
 UENUM(BlueprintType)
@@ -58,7 +59,7 @@ enum class EItemType : uint8
 	EIT_Use			UMETA(DisplayName = "Use"),
 	EIT_Skill		UMETA(DisplayName = "Skill"),
 	EIT_Quest		UMETA(DisplayName = "Quest"),
-	EIT_MAX			UMETA(DisplayName = "MAX")
+	EIT_MAX			UMETA(DisplayName = "MAX"),
 };
 
 UENUM(BlueprintType)

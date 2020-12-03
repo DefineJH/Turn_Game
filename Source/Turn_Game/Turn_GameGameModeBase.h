@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+class AExplorerChar;
+
 UCLASS()
 class TURN_GAME_API ATurn_GameGameModeBase : public AGameModeBase
 {
@@ -20,9 +23,12 @@ public:
 	void SetDefaultData();
 	const TArray<FString> * const GetActiveChar() const;
 	UFUNCTION(BlueprintCallable, Category = "Model")
-	USkeletalMesh* GetCharMesh(FString CharName) const;
+	USkeletalMesh* GetCharMesh(FString CharName, AExplorerChar* ToSet);
 protected:
 	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable)
+	virtual void SetCharMesh(const TArray<FString>& CharName);
 private:
 	TArray<FString> ActiveChar;
+	AExplorerChar* MeshLoadChar;
 };

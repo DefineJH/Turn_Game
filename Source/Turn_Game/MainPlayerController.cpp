@@ -35,6 +35,7 @@ void AMainPlayerController::DisplayPauseMenu()
 {
 	SetUIInput();
 	PauseMenu->SetVisibility(ESlateVisibility::Visible);
+	PauseMenu->SetFocus();
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 

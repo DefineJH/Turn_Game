@@ -9,6 +9,12 @@
 #include <../GI_Archive.h>
 #include <Components/Button.h>
 
+void USubMenuInventory::SetInitalFocus()
+{
+	UInvenView* currentView = Cast<UInvenView>(ListCategory[CurrentPage]);
+	currentView->SetFocus();
+}
+
 void USubMenuInventory::ConstructSubWidget()
 {
 	CurrentPage = 0;
