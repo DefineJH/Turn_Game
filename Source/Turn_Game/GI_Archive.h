@@ -31,9 +31,10 @@ public:
 	* 캐릭터를 비동기적으로 로딩 ( 로딩 후 OnLoadComplete 호출 )
 	* @param CharName - 로딩할 캐릭터의 목록
 	* @warning PathDT 에 존재하는 캐릭터만 로딩가능
+	* @return 모델들이 전부 로딩되어 있을 때 true, 아닐때 false반환-> 이 때 MeshLoadDelegate에 로딩 완료시 함수 등록
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Generate")
-	void LoadModels(TArray<FString> CharName);
+	bool LoadModels(TArray<FString> CharName);
 
 	/**
 	* 로딩된 캐릭터의 메쉬 포인터를 받아오며 로딩이 되지 않았을 시 LoadModels 호출
