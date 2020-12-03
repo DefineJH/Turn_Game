@@ -13,7 +13,7 @@
 #include "Engine/DataTable.h"
 #include "Turn_GameGameModeBase.h"
 #include "Containers/Map.h"
-void UGI_Archive::LoadModels(TArray<FString> CharName)
+bool UGI_Archive::LoadModels(TArray<FString> CharName)
 {
 	bIsLoadCompleted = false;
 	LoadChars = CharName;
@@ -25,8 +25,17 @@ void UGI_Archive::LoadModels(TArray<FString> CharName)
 		{
 			toStream.AddUnique(PathArchive[name]);
 		}
+		
 	}
-	StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnMeshLoadCompleted));
+	if (toStream.Num() == 0)
+	{
+		return true;
+	}
+	else
+	{
+		StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnMeshLoadCompleted));
+		return false;
+	}
 }
 
 TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name) 
@@ -34,12 +43,10 @@ TOptional<USkeletalMesh*> UGI_Archive::QueryModel(FString name)
 	TOptional<USkeletalMesh*> optional;
 	if (ModelArchive.Contains(name))
 	{
-		UE_LOG(LogTemp, Warning, L"%s model Exist", *name);
 		optional = ModelArchive[name];
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, L"%s model doesnt Exist", *name);
 		LoadModels({ name });
 	}
 	return optional;
