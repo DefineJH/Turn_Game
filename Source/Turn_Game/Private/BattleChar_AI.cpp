@@ -5,7 +5,7 @@
 
 ABattleChar_AI::ABattleChar_AI()
 {
-	eType = EPlayerType::E_Enemy;
+	m_eType = EPlayerType::E_Enemy;
 }
 
 void ABattleChar_AI::BeginPlay()

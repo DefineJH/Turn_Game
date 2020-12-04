@@ -127,7 +127,7 @@ bool UGI_Archive::SetCharInfo(FCharInfo CharInfo)
 
 bool UGI_Archive::SetActiveChar(UPARAM(ref)FString & CharName)
 {
-	if (CurActiveChar.Num() == 3)
+	if (CurActiveChar.Num() == 4)
 	{
 		return false;
 	}
@@ -336,7 +336,7 @@ void UGI_Archive::ConstructDefaultCharData()
 
 void UGI_Archive::ConstructDefaultData()
 {
-	CurActiveChar = { "Mia" , "Louis", "Eva" };
+	CurActiveChar = { "Mia" , "Louis", "Eva" , "Yakumo"};
 	MainChar = "Louis";
 
 	CurItems.Emplace(0, 2);

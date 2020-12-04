@@ -34,6 +34,14 @@ enum class EActionState : uint8
 };
 
 UENUM(BlueprintType)
+enum class ETargetType : uint8
+{
+	E_NONE		UMETA(DisplayName = "None"),
+	E_Player	UMETA(DisplayName = "Player"),
+	E_Enemy		UMETA(DisplayName = "Enemy")
+};
+
+UENUM(BlueprintType)
 enum class ETurnMgrState : uint8
 {
 	E_WaitForCommand	UMETA(DisplayName = "WaitForCommand"),
