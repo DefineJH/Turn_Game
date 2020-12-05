@@ -26,7 +26,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	virtual void PatternChecking(FUiInfo uiInfo);	// 1. 행동을 취할 플레이어가 몇번째 플레이어인지, 2. 어떠한 행동을 취할지
+	UFUNCTION(BlueprintCallable, Category = "Pattern")
+		virtual void PatternChecking(FUiInfo uiInfo);	// 1. 행동을 취할 플레이어가 몇번째 플레이어인지, 2. 어떠한 행동을 취할지
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Model")
