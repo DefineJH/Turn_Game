@@ -13,16 +13,17 @@
 
 class UImage;
 class UTextBlock;
+class UItemDataObject;
 
 UCLASS()
 class TURN_GAME_API USingleItem : public UUserWidget, public IUserObjectListEntry
 {
 	GENERATED_BODY()
 public:
-
 protected:
+	UFUNCTION(BlueprintNativeEvent)
+	void NativeOnItemSelectionChanged(bool bIsSelected) override;
 	virtual void NativeOnListItemObjectSet(UObject* ItemObj) override;
-	virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
 protected:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UImage* ItemImage;
@@ -30,4 +31,8 @@ protected:
 	UTextBlock* ItemName;
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* ItemQuantity;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* ItemDesc;
+
+	UItemDataObject* itemData;
 };
