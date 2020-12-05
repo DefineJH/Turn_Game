@@ -127,7 +127,7 @@ bool UGI_Archive::SetCharInfo(FCharInfo CharInfo)
 
 bool UGI_Archive::SetActiveChar(UPARAM(ref)FString & CharName)
 {
-	if (CurActiveChar.Num() == 3)
+	if (CurActiveChar.Num() == 4)
 	{
 		return false;
 	}
@@ -182,7 +182,7 @@ const FItemInformation& UGI_Archive::GetItemInfo(int32 itemCode) const
 	return *ItemInfos.FindByPredicate([itemCode](const FItemInformation& info) { return info.ItemCode == itemCode; });
 }
 
-int8 UGI_Archive::GetItemQuantity(int32 itemCode) const
+int32 UGI_Archive::GetItemQuantity(int32 itemCode) const
 {
 	if (CurItems.Contains(itemCode))
 	{
@@ -397,7 +397,7 @@ FString UGI_Archive::GetFStringFromEnum(FString StrEnumClass, int32 Value)
 
 bool UGI_Archive::UseItem(int32 itemcode, FString TargetChar)
 {
-	if (CurItems.Contains(itemcode) && GetItemQuantity(itemcode) >= 1)
+	if (CurItems.Contains(itemcode) && CurItems[itemcode] > 0)
 	{
 		FItemInformation info = GetItemInfo(itemcode);
 		FCharInfo CharInfo = GetCharInfo(TargetChar);

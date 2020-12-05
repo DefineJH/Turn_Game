@@ -159,7 +159,8 @@ public:
 	* @param itemCode - 아이템 코드
 	* @return 아이템 수량
 	*/
-	int8 GetItemQuantity(int32 itemCode) const;
+	UFUNCTION(BlueprintCallable, Category = "Item")
+	int32 GetItemQuantity(int32 itemCode) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	TArray<FItemInformation> GetItemInfoByCategory(EItemType type);
@@ -180,6 +181,7 @@ public:
 	* @param type - 아이템 타입 열거형
 	* @return 아이템 인포메이션 구조체가 담긴 배열
 	*/
+	UFUNCTION(BlueprintCallable)
 	bool UseItem(int32 itemcode, FString TargetChar);
 
 protected:
