@@ -17,7 +17,11 @@ void ATurn_GameGameModeBase::BeginPlay()
 
 void ATurn_GameGameModeBase::Save(int idx)
 {
-	UGameSaver* SaveInst = Cast<UGameSaver>(UGameplayStatics::CreateSaveGameObject(UGameSaver::StaticClass()));
+	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+	if (arch)
+	{
+		arch->SaveCurrentData(idx);
+	}
 }
 
 void ATurn_GameGameModeBase::Load(int idx)
@@ -26,47 +30,36 @@ void ATurn_GameGameModeBase::Load(int idx)
 
 	if (LoadGameInstance)
 	{
-		LoadGameInstance->SaveSlotName = "MySaveGame";
-		LoadGameInstance->SaveIndex = idx;
+		LoadGameInstance->SaveSlotName = L"Slot" + FString::FromInt(idx);
+		LoadGameInstance->SaveIndex = 0;
 		LoadGameInstance = Cast<UGameSaver>(UGameplayStatics::LoadGameFromSlot(LoadGameInstance->SaveSlotName, LoadGameInstance->SaveIndex));
 		if (LoadGameInstance)
 		{
-			LoadGameInstance->ActiveChar = ActiveChar;
-		}
-		else
-		{
-			SetDefaultData();
+			UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+			if (arch)
+			{
+				arch->LoadGameFromData(LoadGameInstance);
+			}
 		}
 	}
-}
-
-void ATurn_GameGameModeBase::SetDefaultData()
-{
-	
-	ActiveChar = { "Mia","Louis","Eva" };
-}
-
-const TArray<FString> * const ATurn_GameGameModeBase::GetActiveChar() const
-{
-	return &ActiveChar;
 }
 
 USkeletalMesh* ATurn_GameGameModeBase::GetCharMesh(FString CharName , AExplorerChar* ToSet) 
 {
+
 	UGI_Archive* GameInst = Cast<UGI_Archive>(GetGameInstance());
 	if (GameInst)
 	{
-		auto Mesh = GameInst->QueryModel(CharName);
-		if (Mesh.IsSet())
-			return Mesh.Get(nullptr);
+		bool MeshSet = GameInst->LoadModels({ CharName });
+		if (MeshSet)
+			return GameInst->QueryModel(CharName).GetValue();
 		else
 		{
 			MeshLoadChar = ToSet;
-			GameInst->MeshLoadDelegate.BindUFunction(this,L"SetCharMesh");
+			GameInst->MeshLoadDelegate.BindUFunction(this, L"SetCharMesh");
 			return nullptr;
 		}
 	}
-	return nullptr;
 }
 
 void ATurn_GameGameModeBase::SetCharMesh(const TArray<FString>& CharName)

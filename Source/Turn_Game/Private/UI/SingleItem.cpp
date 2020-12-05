@@ -9,11 +9,6 @@
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 
-
-
-
-
-
 void USingleItem::NativeOnListItemObjectSet(UObject* ItemObj)
 {
 	itemData = Cast<UItemDataObject>(ItemObj);

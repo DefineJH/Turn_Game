@@ -425,6 +425,20 @@ bool UGI_Archive::UseItem(int32 itemcode, FString TargetChar)
 	return false;
 }
 
+void UGI_Archive::LoadGameFromData(UGameSaver* LoadData)
+{
+	if (LoadData)
+	{
+		CurItems = LoadData->Items;
+		CurActiveChar = LoadData->ActiveChar;
+		for (FCharInfo info : LoadData->CharInfos)
+		{
+			if (CurCharInfo.Find(info.Name))
+				CurCharInfo[info.Name] = info;
+		}
+	}
+}
+
 TOptional<FCharInfo> UGI_Archive::GetDefaultCharData(FString CharName) const
 {
 	TOptional<FCharInfo> info;
