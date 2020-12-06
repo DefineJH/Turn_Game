@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BattleChar.h"
+#include "Custom/CusomEnum.h"
 #include "BattleChar_Player.generated.h"
 
 /**
@@ -24,6 +25,9 @@ protected:
 public:
 	virtual	FActionInfo PatternSetting(FUiInfo uiInfo);
 
+public:
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+		FORCEINLINE EWeaponType GetWeaponType();		//FORCEINLINE : 언리얼에서 인라인하는 매크로함수.
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Attack")
@@ -40,4 +44,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Run")
 		virtual void Run();
+
+protected:
+	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "WeaponType")
+		EWeaponType		eWeaponType;
 };

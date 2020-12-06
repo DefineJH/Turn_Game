@@ -25,6 +25,9 @@ ABattleChar::ABattleChar()
 	CapsuleComp->SetCapsuleHalfHeight(88.0f);	// 캡슐의 세로길이?
 	CapsuleComp->SetCapsuleRadius(34.0f);		// 캡슐의 가로둘레?
 
+	//Animation 관련
+	MeshComp->SetAnimationMode(EAnimationMode::AnimationBlueprint);	// 애니메이션블루프린트를 사용한다고 알리는것.
+
 	//MeshComp->SetRelativeRotation() : 카메라의 위치잡는거같음
 }
 

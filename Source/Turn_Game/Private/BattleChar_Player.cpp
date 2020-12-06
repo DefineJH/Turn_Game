@@ -38,6 +38,11 @@ FActionInfo ABattleChar_Player::PatternSetting(FUiInfo uiInfo)
 	return FActionInfo();
 }
 
+EWeaponType ABattleChar_Player::GetWeaponType()
+{
+	return eWeaponType;
+}
+
 FActionInfo ABattleChar_Player::Attack(FUiInfo uiInfo)
 {
 	m_ActionInfo.eTargetType = uiInfo.eTargetType;
