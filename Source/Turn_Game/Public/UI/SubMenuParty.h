@@ -17,7 +17,9 @@ class TURN_GAME_API USubMenuParty : public USubMenuParent
 {
 	GENERATED_BODY()
 protected:
+	/* 위젯을 초기 생성 */
 	virtual void ConstructSubWidget() override;
+	/* 데이터 변경 시 실행 */
 	virtual void UpdateSubWidget() override;
 protected:
 	//캐릭터 한명을 설명하는 위젯에 대한 클래스

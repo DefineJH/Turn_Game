@@ -6,6 +6,7 @@
 #include "../Public/ItemDataObject.h"
 #include "../GI_Archive.h"
 #include "../Public/UI/PartyCharDisplay.h"
+#include "../Public/UI/SingleItem.h"
 #include "Components/ListView.h"
 #include "Components/ScrollBox.h"
 #include "Components/WidgetSwitcher.h"
@@ -19,6 +20,7 @@
 void UInvenView::ConstructList(EItemType CategoryType)
 {
 	LeftSwitch = false;
+	invenType = CategoryType;
 	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
 	if (arch)
 	{
@@ -27,7 +29,7 @@ void UInvenView::ConstructList(EItemType CategoryType)
 		{
 			UItemDataObject* dataObj = NewObject<UItemDataObject>(this);
 			dataObj->SetInfo(info);
-			if(ItemListView)
+			if(ItemListView && arch->GetItemQuantity(info.ItemCode) > 0)
 				ItemListView->AddItem(dataObj);
 		}
 	}
@@ -36,10 +38,35 @@ void UInvenView::ConstructList(EItemType CategoryType)
 
 void UInvenView::SelectItem(UItemDataObject* SelectedItem)
 {
-	ItemData = SelectedItem->GetInfo();
+	SelectedItemData = SelectedItem;
+	SelectedItemWidget = ItemListView->GetEntryWidgetFromItem<USingleItem>(SelectedItem);
 }
 
 void UInvenView::SetFocus()
 {
 	ItemListView->SetKeyboardFocus();
+}
+
+void UInvenView::UseCurSelectedItem(FString TargetChar)
+{
+	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+	if (arch)
+	{
+		int32 itemcode = -1;
+		if (SelectedItemWidget)
+		{
+			itemcode = SelectedItemData->GetInfo().ItemCode;
+			if (arch->UseItem(itemcode, TargetChar))
+			{
+				UE_LOG(LogTemp, Warning, L"ItemUsed");
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, L"ItemCantUsed");
+
+			}
+		}
+		ItemListView->ClearListItems();
+		ConstructList(invenType);
+	}
 }

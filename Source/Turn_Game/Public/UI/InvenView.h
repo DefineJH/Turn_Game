@@ -18,22 +18,36 @@ class UItemDataObject;
 class UTextBlock;
 class UScrollBox;
 class UWidgetSwitcher;
-
+class UItemDataObject;
 UCLASS()
 class TURN_GAME_API UInvenView : public UUserWidget
 {
 	GENERATED_BODY()
 public:
 	void ConstructList(EItemType CategoryType);
+	/**
+	* ListView의 OnItemClicked 시 불려지는 메서드, 아이템을 저장함
+	*/
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SelectItem(UItemDataObject* SelectedItem);
 	void SetFocus();
 protected:
+	/**
+	*
+	*/
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void UseCurSelectedItem(FString TargetChar);
+protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UListView* ItemListView;
 	UPROPERTY(BlueprintReadWrite)
-	FItemInformation ItemData;
+	UItemDataObject* SelectedItemData;
+	UPROPERTY(BlueprintReadWrite)
+	USingleItem* SelectedItemWidget;
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TSubclassOf<UUserWidget> MiniChar;
+
+	EItemType invenType;
 	bool LeftSwitch;
+
 };

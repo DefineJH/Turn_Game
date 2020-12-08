@@ -36,6 +36,7 @@ private:
 protected:
 	uint8 CurrentPage;
 	uint8 MaxPage;
+	/* InvenView는 한 카테고리당 하나씩 생성되어 SubMenuInventory서 조작가능*/
 	TArray<UInvenView*> ListCategory;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

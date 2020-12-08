@@ -20,6 +20,9 @@ class TURN_GAME_API UPauseMenu : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	/**
+	* 현재 서브메뉴가 존재하지 않고 Pause메뉴가 제일 상단인지를 반환
+	*/
 	bool GetIsRoot();
 	void RemoveSubMenu();
 	UFUNCTION(BlueprintCallable)

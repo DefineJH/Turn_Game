@@ -77,15 +77,42 @@ public:
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 		float	fDef;							// 방어력 (Deffence / 4바이트)
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
-		int32	iPlayerCount;					// 몇번째 플레이어인지 (signed int형 / 4바이트)
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
-		int32	iMonsterCount;					// 몇번째 몬스터인지 (signed int형 / 4바이트)
+		int32	iTargetIndex;					// 몇번째 위치하는 타겟인지 (signed int형 / 4바이트)
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 		int32	iAnimNumber;					// 애니메이션번호 (AnimationNumber / signed int형 / 4바이트)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+		int32	iHp;							// 스킬 혹은 아이템으로 인한 회복 or 감소 될 HP량
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+		int32	iSp;							// 스킬 혹은 아이템으로 인한 회복 or 감소 될 SP량
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+		ETargetType eTargetType = ETargetType::E_NONE;				// 스킬 혹은 아이템이 대상이 될 타겟의 종류
 
-		//FActionInfo에서는 Speed값이 필요가 없음 (턴매니저에서 스피드값으로 우선순위를 정하는 용도로만 사용하기때문)
+	//FActionInfo에서는 Speed값이 필요가 없음 (턴매니저에서 스피드값으로 우선순위를 정하는 용도로만 사용하기때문)
 };
 
+
+// Ui에서 클릭하여 나올 모든 정보의 종류의 값들
+USTRUCT(Atomic, BlueprintType)
+struct FUiInfo								
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+		int32	iPlayerIndex;					// 현재 UI의 주인이 되고있는 플레이어가 몇번째의 플레이어인지 알기위함.
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+		int32	iActionIndex;					// 현재 선택당한 행동이 어떤것인지 (ex / Attack, Guard, Skill, ..)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32	iTargetIndex;					// 몇번째에 있는 타겟인지
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32	iItemCode = -1;					// 사용할 아이템의 코드
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32	iSkillIndex = -1;				// 몇번째 스킬인지
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		ETargetType	eTargetType = ETargetType::E_NONE;				// 스킬의 대상이 몬스터, 플레이어 중 누구인지
+
+	// -1 : 사용하지않을 때의 디폴트값으로 예외처리를 하기위함.
+};
 
 USTRUCT(Atomic, BlueprintType)
 struct FPawnInfo								// 플레이어와 몬스터의 기본적인 수치값들

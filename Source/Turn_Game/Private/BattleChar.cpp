@@ -3,6 +3,7 @@
 
 #include "BattleChar.h"
 #include "../GI_Archive.h"
+#include "../Public/Custom/CustomStruct.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 
@@ -24,6 +25,9 @@ ABattleChar::ABattleChar()
 	CapsuleComp->SetCapsuleHalfHeight(88.0f);	// 캡슐의 세로길이?
 	CapsuleComp->SetCapsuleRadius(34.0f);		// 캡슐의 가로둘레?
 
+	//Animation 관련
+	MeshComp->SetAnimationMode(EAnimationMode::AnimationBlueprint);	// 애니메이션블루프린트를 사용한다고 알리는것.
+
 	//MeshComp->SetRelativeRotation() : 카메라의 위치잡는거같음
 }
 
@@ -33,15 +37,15 @@ void ABattleChar::BeginPlay()
 	Super::BeginPlay();
 	
 
-	UGI_Archive* Arch = Cast<UGI_Archive>(GetGameInstance());
-	if (Arch)
-	{
-		// 몬스터일 경우, Yakumo를 입히게하고, 
-		if(eType == EPlayerType::E_Enemy)
-			SetCharMesh("Yakumo");
+	//UGI_Archive* Arch = Cast<UGI_Archive>(GetGameInstance());
+	//if (Arch)
+	//{
+	//	// 몬스터일 경우, Yakumo를 입히게하고, 
+	//	if(eType == EPlayerType::E_Enemy)
+	//		SetCharMesh("Yakumo");
 
-		SetCharMesh("Mia");
-	}
+	//	SetCharMesh("Mia");
+	//}
 }
 
 // Called every frame
@@ -51,23 +55,29 @@ void ABattleChar::Tick(float DeltaTime)
 
 }
 
-void ABattleChar::SetCharMesh(FString CharName)
+void ABattleChar::SetCharMesh(USkeletalMesh* CharMesh)
 {
-	UGI_Archive* Arch = Cast<UGI_Archive>(GetGameInstance());
-	if (Arch)
+	if (CharMesh)
 	{
-		auto model = Arch->QueryModel(CharName);
-		if (model.IsSet())
-		{
-			MeshComp->SetSkeletalMesh(model.GetValue());
-			UE_LOG(LogTemp, Warning, L"MeshSet");
-		}
-		else
-		{
-			Arch->MeshLoadDelegate.BindUFunction(this, L"SetCharMesh");
-			UE_LOG(LogTemp, Warning, L"MeshSetAsync");
-		}
+		MeshComp->SetSkeletalMesh(CharMesh);
 	}
 }
+
+FActionInfo ABattleChar::PatternSetting(FUiInfo uiInfo)
+{
+	return FActionInfo();
+}
+
+void ABattleChar::ResetActionInfo(void)
+{
+	m_ActionInfo.eTargetType = ETargetType::E_NONE;
+	m_ActionInfo.fAtt = 0.0f;
+	m_ActionInfo.fAtt = 0.0f;
+	m_ActionInfo.iAnimNumber = 0;
+	m_ActionInfo.iHp = 0;
+	m_ActionInfo.iSp = 0;
+	m_ActionInfo.iTargetIndex = 0;
+}
+
 
 

@@ -31,7 +31,7 @@ public:
 	* 캐릭터를 비동기적으로 로딩 ( 로딩 후 OnLoadComplete 호출 )
 	* @param CharName - 로딩할 캐릭터의 목록
 	* @warning PathDT 에 존재하는 캐릭터만 로딩가능
-	* @return 모델들이 전부 로딩되어 있을 때 true, 아닐때 false반환-> 이 때 MeshLoadDelegate에 로딩 완료시 함수 등록
+	* @return 모델들이 전부 로딩되어 있을 때 true -> QueryModel 실행 시 메쉬획득, 아닐때 false반환-> 이 때 MeshLoadDelegate에 로딩 완료시 함수 등록
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Generate")
 	bool LoadModels(TArray<FString> CharName);
@@ -64,7 +64,11 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Info")
 	const FCharInfo& GetCharInfo(FString CharName) const;
-
+	/**
+	* 캐릭터의 정보를 아카이브에 저장 ( 세이브,메인 씬 UI 구성 시 사용 )
+	* @param CharInfo - 저장할 캐릭터의 정보
+	* @return 캐릭터 정보 배열에 매개변수 캐릭터의 이름이 없을 시 false 반환
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Info")
 	bool SetCharInfo(FCharInfo CharInfo);
 
@@ -151,6 +155,11 @@ public:
 	void ChangeMainChar(UPARAM(ref) FString& CharName);
 
 
+	/**
+	* 넘겨받은 아이템 코드를 가진 아이템의 정보를 반환한다
+	* @param itemCode - 아이템 코드 ( DT에서 확인가능 )
+	* @return 받은 아이템 코드의 정보를 반환( 아카이브 map의 tuple의 레퍼런스 )
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	const FItemInformation& GetItemInfo(int32 itemCode) const;
 
@@ -159,8 +168,13 @@ public:
 	* @param itemCode - 아이템 코드
 	* @return 아이템 수량
 	*/
-	int8 GetItemQuantity(int32 itemCode) const;
-
+	UFUNCTION(BlueprintCallable, Category = "Item")
+	int32 GetItemQuantity(int32 itemCode) const;
+	/**
+	* 아카이브에 존재하는 모든 아이템을 매개변수로 받은 카테고리에 의해 분류하여 반환
+	* @param EItemType type - 아이템 타입
+	* @return 아이템 수량
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	TArray<FItemInformation> GetItemInfoByCategory(EItemType type);
 
@@ -180,12 +194,18 @@ public:
 	* @param type - 아이템 타입 열거형
 	* @return 아이템 인포메이션 구조체가 담긴 배열
 	*/
+	UFUNCTION(BlueprintCallable)
 	bool UseItem(int32 itemcode, FString TargetChar);
 
+	/**
+	* 현재 게임의 정보를 매개변수로 받은 데이터에 의거해 재구축
+	* @param LoadData - 로드한 게임의 정보가 담긴 인스턴스의 포인터
+	*/
+	void LoadGameFromData(UGameSaver* LoadData);
 protected:
 	/** 모델의 경로를 Map에 담는 메서드*/
 	void ConstructModelPath();
-
+	/** 아이템 정보를 DT에서 구성하여 Map에 담는 메서드*/
 	void ConstructItemInfo();
 
 	/** 초기화 함수*/
@@ -237,7 +257,7 @@ protected:
 	/**현재 진행중인 게임의 캐릭터 정보를 담고있는 map container*/
 	TMap<FString, FCharInfo> CurCharInfo;
 
-	/**현재 진행중인 게임의 출전 캐릭터 이름을 담고있는 배열*/
+	/**현재 진행중인 게임의 출전(bisActive) 캐릭터 이름을 담고있는 배열*/
 	TArray<FString> CurActiveChar;
 
 	/**게임 상에 존재하는 모든 아이템의 정보를 담고있는 배열*/

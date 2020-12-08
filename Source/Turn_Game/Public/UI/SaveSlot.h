@@ -23,6 +23,7 @@ class TURN_GAME_API USaveSlot : public UUserWidget
 public:
 	void ConstructFromData(int idx ,UGI_Archive* archive);
 protected:
+	/* 해당 슬롯이 존재하지 않을 시 기본 프리뷰를 구성하는 메서드 */
 	void ConstructInvalidData(UGI_Archive* archive);
 protected:
 	UGameSaver* SaveInst;

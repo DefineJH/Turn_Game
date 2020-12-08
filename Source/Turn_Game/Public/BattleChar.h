@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-//#include "GameFramework/FloatingPawnMovement.h"
+#include "../Public/Custom/CustomStruct.h"
 #include "BattleChar.generated.h"
 
 class USkeletalMeshComponent;
 class UCapsuleComponent;
+struct FCharInfo;
 
 UENUM(BlueprintType)
 enum class EPlayerType : uint8
@@ -38,15 +39,33 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Mesh")
-		void SetCharMesh(FString CharName);
+		void SetCharMesh(USkeletalMesh* CharMesh);
+
+public:
+	/*
+	플레이어, 몬스터들에 iActionIndex를 넘겨줄경우, 그거에 맞는 패턴을 실행시키게함.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Action")
+		virtual	FActionInfo PatternSetting(FUiInfo uiInfo);
+
+public:
+	//Set 함수
+
+public:
+	//Get 함수
 
 protected:
-	EPlayerType eType;
+	// 행동을 통해 값이 들어간것을 초기화시켜주기.
+	void ResetActionInfo(void);
 
+protected:
+	EPlayerType m_eType;
+	FActionInfo m_ActionInfo;
 public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Collision")
 		UCapsuleComponent*		CapsuleComp;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Mesh")
 		USkeletalMeshComponent*	MeshComp;
+
 };
