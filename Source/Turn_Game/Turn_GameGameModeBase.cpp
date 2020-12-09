@@ -60,6 +60,7 @@ USkeletalMesh* ATurn_GameGameModeBase::GetCharMesh(FString CharName , AExplorerC
 			return nullptr;
 		}
 	}
+	return nullptr;
 }
 
 void ATurn_GameGameModeBase::SetCharMesh(const TArray<FString>& CharName)
