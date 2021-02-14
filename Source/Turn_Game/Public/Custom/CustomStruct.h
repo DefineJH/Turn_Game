@@ -142,7 +142,7 @@ public:
 };
 
 USTRUCT(Atomic, BlueprintType)
-struct FCharInfo : public FTableRowBase
+struct FThingsInfo : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
@@ -152,25 +152,47 @@ public:
 	void DecreaseSP(int32 Amount);
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Name;
+		FString Name;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 iLevel;
+		int32 iLevel;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 iHP;
+		int32 iHP;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 iSP;
+		int32 iSP;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 iMaxHP;
+		int32 iMaxHP;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 iMaxSP;
+		int32 iMaxSP;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 iExp;
+		int32 iExp;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float fAtt;
+		float fAtt;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float fDef;
+		float fDef;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EElementalType type;
+		EElementalType type;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FEnemyInfo : public FThingsInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EElementalType WeakType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString AppearMap;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FCharInfo : public FThingsInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESexType sex;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EWeaponType weapon;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsActive;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

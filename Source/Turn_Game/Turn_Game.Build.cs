@@ -8,7 +8,7 @@ public class Turn_Game : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "UMG" , "Paper2D" , "AIModule" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "UMG" , "Paper2D" , "AIModule", "LevelSequence", "MovieScene" });
 
         //PrivateDependencyModuleNames.AddRange(new string[] {  });
 

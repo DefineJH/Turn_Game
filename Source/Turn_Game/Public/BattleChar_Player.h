@@ -27,8 +27,12 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Animation")
-		FORCEINLINE EWeaponType GetWeaponType();		//FORCEINLINE : 언리얼에서 인라인하는 매크로함수.
+	EWeaponType GetWeaponType();
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+	ESexType GetSexType();
 
+	UFUNCTION(BlueprintCallable, Category = "Info")
+	void SetCharInfo(FCharInfo Info);
 public:
 	UFUNCTION(BlueprintCallable, Category = "Attack")
 		virtual FActionInfo Attack(FUiInfo uiInfo);
@@ -46,6 +50,7 @@ public:
 		virtual void Run();
 
 protected:
-	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "WeaponType")
-		EWeaponType		eWeaponType;
+	FCharInfo m_CharInfo;
+
+
 };

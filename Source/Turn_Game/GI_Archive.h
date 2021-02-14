@@ -16,7 +16,6 @@
 
  /**캐릭터 비동기 로딩 끝날 시 Execute 되는 델리게이트 */
 DECLARE_DELEGATE_OneParam(FMeshLoadCompleteSignature, const TArray<FString>&);
-
 class USkeletalMesh;
 class UDataTable;
 class UTexture2D;
@@ -35,6 +34,9 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Generate")
 	bool LoadModels(TArray<FString> CharName);
+
+	UFUNCTION(BlueprintCallable, Category = "Generate")
+	bool LoadModel(FString CharName);
 
 	/**
 	* 로딩된 캐릭터의 메쉬 포인터를 받아오며 로딩이 되지 않았을 시 LoadModels 호출
@@ -208,6 +210,8 @@ protected:
 	/** 아이템 정보를 DT에서 구성하여 Map에 담는 메서드*/
 	void ConstructItemInfo();
 
+	void ConstructMonsterInfo();
+
 	/** 초기화 함수*/
 	virtual void Init() override;
 private:
@@ -239,6 +243,11 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	UDataTable* ItemData_DT;
 
+	/**적 정보를 담고있는 데이터 테이블*/
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UDataTable* Enemy_DT;
+
+
 	/**모델의 이름과 path를 담고있는 map container*/
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TMap<FString, FStringAssetReference> PathArchive;
@@ -251,18 +260,27 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TMap<FString, UPaperSprite*> UISpriteArchive;
 
+	UPROPERTY()
 	/**모델의 이름과 스켈레탈 메쉬 포인터를담고있는 map container*/
 	TMap<FString, USkeletalMesh*> ModelArchive;
 
+	UPROPERTY()
 	/**현재 진행중인 게임의 캐릭터 정보를 담고있는 map container*/
 	TMap<FString, FCharInfo> CurCharInfo;
 
+	UPROPERTY()
+	/**몬스터의 정보를 담고있는 컨테이너*/
+	TMap<FString, FEnemyInfo> EnemyInfo;
+
+	UPROPERTY()
 	/**현재 진행중인 게임의 출전(bisActive) 캐릭터 이름을 담고있는 배열*/
 	TArray<FString> CurActiveChar;
 
+	UPROPERTY()
 	/**게임 상에 존재하는 모든 아이템의 정보를 담고있는 배열*/
 	TArray<FItemInformation> ItemInfos;
 
+	UPROPERTY()
 	/**key - item code, value - item count*/
 	TMap<int32, uint8> CurItems;
 

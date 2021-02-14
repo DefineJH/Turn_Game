@@ -6,6 +6,7 @@
 #include "../Public/Custom/CustomStruct.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SceneComponent.h"
 
 // Sets default values
 ABattleChar::ABattleChar()
@@ -16,6 +17,10 @@ ABattleChar::ABattleChar()
 
 	MeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MESH"));
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CAPSULE"));
+	CameraAttach = CreateDefaultSubobject<USceneComponent>(L"CameraAttach");
+	AttackPoint = CreateDefaultSubobject<USceneComponent>(L"AttackPoint");
+
+
 
 	RootComponent = CapsuleComp;
 	MeshComp->SetupAttachment(CapsuleComp);	// ()안에있는 Component를 부모로 만드는 함수
@@ -28,7 +33,8 @@ ABattleChar::ABattleChar()
 	//Animation 관련
 	MeshComp->SetAnimationMode(EAnimationMode::AnimationBlueprint);	// 애니메이션블루프린트를 사용한다고 알리는것.
 
-	//MeshComp->SetRelativeRotation() : 카메라의 위치잡는거같음
+
+
 }
 
 // Called when the game starts or when spawned
@@ -62,6 +68,8 @@ void ABattleChar::SetCharMesh(USkeletalMesh* CharMesh)
 		MeshComp->SetSkeletalMesh(CharMesh);
 	}
 }
+
+
 
 FActionInfo ABattleChar::PatternSetting(FUiInfo uiInfo)
 {

@@ -40,7 +40,20 @@ FActionInfo ABattleChar_Player::PatternSetting(FUiInfo uiInfo)
 
 EWeaponType ABattleChar_Player::GetWeaponType()
 {
-	return eWeaponType;
+	UE_LOG(LogTemp, Warning, L"CharDataFetched_Weapon");
+	return m_CharInfo.weapon;
+}
+
+ESexType ABattleChar_Player::GetSexType()
+{
+	UE_LOG(LogTemp, Warning, L"CharDataFetched_Sex");
+	return m_CharInfo.sex;
+}
+
+void ABattleChar_Player::SetCharInfo(FCharInfo Info)
+{
+	UE_LOG(LogTemp, Warning, L"CharDataPassed");
+	m_CharInfo = Info;
 }
 
 FActionInfo ABattleChar_Player::Attack(FUiInfo uiInfo)

@@ -29,12 +29,33 @@ bool UGI_Archive::LoadModels(TArray<FString> CharName)
 	}
 	if (toStream.Num() == 0)
 	{
+		bIsLoadCompleted = true;
 		return true;
 	}
 	else
 	{
 		StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnMeshLoadCompleted));
 		return false;
+	}
+}
+
+bool UGI_Archive::LoadModel(FString CharName)
+{
+	bIsLoadCompleted = false;
+	LoadChars = TArray<FString>();
+	LoadChars.Add(CharName);
+	auto& assetLoader = UAssetManager::GetStreamableManager();
+	TArray<FSoftObjectPath> toStream;
+	if (!ModelArchive.Contains(CharName))
+	{
+		toStream.AddUnique(PathArchive[CharName]);
+		StreamHandle = assetLoader.RequestAsyncLoad(toStream, FStreamableDelegate::CreateUObject(this, &UGI_Archive::OnMeshLoadCompleted));
+		return false;
+	}
+	else
+	{
+		bIsLoadCompleted = true;
+		return true;
 	}
 }
 
@@ -250,12 +271,33 @@ void UGI_Archive::ConstructItemInfo()
 
 }
 
+void UGI_Archive::ConstructMonsterInfo()
+{
+	if (Enemy_DT)
+	{
+		auto rownames = Enemy_DT->GetRowNames();
+		auto rowStruct = Enemy_DT->GetRowStruct();
+		for (auto& name : rownames)
+		{
+			FEnemyInfo* temp = Enemy_DT->FindRow<FEnemyInfo>(name, "");
+			if (temp)
+			{
+				EnemyInfo.Add(temp->Name, *temp);
+			}
+		}
+
+	}
+}
+
 void UGI_Archive::Init()
 {
 	Super::Init();
+	//게임 데이터 생성, 세이브데이터에 따라 다르지 않음.
 	ConstructModelPath();
 	ConstructItemInfo();
+	ConstructMonsterInfo();
 
+	//세이브 데이터에 따라 달라지는 로딩 데이터(수정필)
 	ConstructDefaultData();
 	ConstructDefaultCharData();
 	LoadModels(CurActiveChar);

@@ -3,8 +3,12 @@
 
 #include "Turn_GameGameModeBattle.h"
 #include "Kismet/GameplayStatics.h"
+#include "Runtime/LevelSequence/Public/LevelSequence.h"
+#include "Runtime/LevelSequence/Public/LevelSequencePlayer.h"
+#include "BattleChar_Player.h"
 #include "../GI_Archive.h"
 #include "BattleChar.h"
+#include "Engine/TargetPoint.h"
 
 ATurn_GameGameModeBattle::ATurn_GameGameModeBattle()
 {
@@ -17,33 +21,10 @@ void ATurn_GameGameModeBattle::BeginPlay()
 	Super::BeginPlay();
 	archive = Cast<UGI_Archive>(GetGameInstance());
 
-	//BattlePawnClass로 지정한 것이 있을 때 실행.
-	if (BattlePawnClass)
-	{
-		//GetWorld() : UWorld 객체를 가져오는 함수.
-		PlayerArray.Push(GetWorld()->SpawnActor<ABattleChar>(BattlePawnClass, FVector(550.0f, -300.0f, 108.0f), FRotator(0.0f, 0.0f, 0.0f)));
-		PlayerArray.Push(GetWorld()->SpawnActor<ABattleChar>(BattlePawnClass, FVector(200.0f, -300.0f, 108.0f), FRotator(0.0f, 0.0f, 0.0f)));
-		PlayerArray.Push(GetWorld()->SpawnActor<ABattleChar>(BattlePawnClass, FVector(-150.0f, -300.0f, 108.0f), FRotator(0.0f, 0.0f, 0.0f)));
-		PlayerArray.Push(GetWorld()->SpawnActor<ABattleChar>(BattlePawnClass, FVector(-500.0f, -300.0f, 108.0f), FRotator(0.0f, 0.0f, 0.0f)));
-	}
-	
-	/*if (BattlePawnAIClass)
-	{
-		EnemyArray.Push(GetWorld()->SpawnActor<ABattleChar>(BattlePawnAIClass, FVector(550.0f, 460.0f, 108.0f), FRotator(0.0f, 0.0f, 180.0f)));
-	}*/
+	SetUpPlayerPawn();
 
-	// 출전중인 플레이어들의 정보를 받아서 activeCharArray에 담아줌.
-	if (archive)
-	{
-		activeCharArray = archive->GetActiveCharsInfo();
 
-		TArray<FString> tempCharName;
-		for (int32 i = 0; i < activeCharArray.Num(); i++)
-		{
-			tempCharName.Add(activeCharArray[i].Name);		// 출전중인 캐릭터들의 이름만 따로 빼옴.
-		}
-		GetCharsMesh(tempCharName);
-	}
+	PlayStartSequence();
 }
 
 void ATurn_GameGameModeBattle::PatternChecking(FUiInfo uiInfo)
@@ -107,7 +88,7 @@ void ATurn_GameGameModeBattle::GetCharsMesh(const TArray<FString>& CharNames)
 {
 	// 모델들이 전부 로딩되어 있을 때 true, 아닐때 false반환이므로 전부 로딩이 아닌 false일때 델리게이트 등록시킴.
 	if (!archive->LoadModels(CharNames))
-		archive->MeshLoadDelegate.BindUFunction(this, L"OnMeshComplete");
+		archive->MeshLoadDelegate.BindUFunction(this, L"OnMeshLoadComplete");
 	else
 		OnMeshLoadComplete(CharNames);
 
@@ -125,4 +106,88 @@ void ATurn_GameGameModeBattle::OnMeshLoadComplete(const TArray<FString>& CharNam
 	//{
 	//	EnemyArray[0]->SetCharMesh(archive->QueryModel(CharNames[0]).GetValue());
 	//}
+}
+
+void ATurn_GameGameModeBattle::PlayStartSequence()
+{
+	if (StartSequence)
+	{
+		SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), StartSequence, FMovieSceneSequencePlaybackSettings(), StartSequenceActor);
+	}
+	if (SequencePlayer)
+	{
+		SequencePlayer->Play();
+	}
+}
+
+void ATurn_GameGameModeBattle::SetUpPlayerPawn()
+{
+	TArray<AActor*> TempTargetPoints;
+	TArray<AActor*> TempPlayerPoint;
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATargetPoint::StaticClass(), TempTargetPoints);
+
+	for (AActor* temp : TempTargetPoints)
+	{
+		if (temp->GetName().Contains("Player"))
+		{
+			TempPlayerPoint.Add(temp);
+			UE_LOG(LogTemp, Warning, L"%s", *temp->GetName());
+		}
+	}
+
+	//BattlePawnClass로 지정한 것이 있을 때 실행.
+	if (BattlePawnClass && archive)
+	{
+		activeCharArray = archive->GetActiveCharsInfo();
+
+		TArray<FString> tempCharName;
+		for (int32 i = 0; i < TempPlayerPoint.Num(); i++)
+		{
+			if (i >= activeCharArray.Num())
+			{
+				break;
+			}
+			PlayerArray.Push(GetWorld()->SpawnActor<ABattleChar_Player>(BattlePawnClass, TempPlayerPoint[i]->GetActorLocation(), FRotator(0.f, 0.f, 0.f)));
+			PlayerArray[i]->SetCharInfo(activeCharArray[i]);
+			tempCharName.Add(activeCharArray[i].Name);		// 출전중인 캐릭터들의 이름만 따로 빼옴.
+		}
+		GetCharsMesh(tempCharName);
+	}
+}
+
+void ATurn_GameGameModeBattle::SetUpEnemyPawn()
+{
+	TArray<AActor*> TempTargetPoints;
+	TArray<AActor*> TempPlayerPoint;
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATargetPoint::StaticClass(), TempTargetPoints);
+
+	for (AActor* temp : TempTargetPoints)
+	{
+		if (temp->GetName().Contains("Player"))
+		{
+			TempPlayerPoint.Add(temp);
+			UE_LOG(LogTemp, Warning, L"%s", *temp->GetName());
+		}
+	}
+
+	//BattlePawnClass로 지정한 것이 있을 때 실행.
+	if (BattlePawnClass && archive)
+	{
+		activeCharArray = archive->GetActiveCharsInfo();
+
+		TArray<FString> tempCharName;
+		for (int32 i = 0; i < TempPlayerPoint.Num(); i++)
+		{
+			if (i >= activeCharArray.Num())
+			{
+				break;
+			}
+			PlayerArray.Push(GetWorld()->SpawnActor<ABattleChar_Player>(BattlePawnClass, TempPlayerPoint[i]->GetActorLocation(), FRotator(0.f, 0.f, 0.f)));
+			PlayerArray[i]->SetCharInfo(activeCharArray[i]);
+			tempCharName.Add(activeCharArray[i].Name);		// 출전중인 캐릭터들의 이름만 따로 빼옴.
+		}
+		GetCharsMesh(tempCharName);
+	}
 }

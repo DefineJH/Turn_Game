@@ -54,10 +54,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widget")
 	TSubclassOf<USubMenuParent> InvenMenuClass;
 protected:
+	//UPROPERTY()를 사용하지 않을 시에 UE4는 포인터의 상태를 알지 못하므로
+	//가비지 컬렉션때 포인터가 가리키는 메모리를 해제할 수도 있다.
+	UPROPERTY()
 	USubMenuParent* PartyMenu;
+	UPROPERTY()
 	USubMenuParent* SaveMenu;
+	UPROPERTY()
 	USubMenuParent* InvenMenu;
-
+	UPROPERTY()
 	USubMenuParent* CurrentMenu;
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, meta = (BindWidget))

@@ -31,10 +31,13 @@ void AExplorerChar::BeginPlay()
 		MovementComp->bUseControllerDesiredRotation = true;
 		MovementComp->bOrientRotationToMovement = true;
 	}
-
+	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+	if (arch)
+	{
+		SetCharMesh(arch->GetMainChar());
+	}
 
 }
-
 void AExplorerChar::MoveVertical(float value)
 {
 	const FRotator Rotation = Controller->GetControlRotation();
@@ -51,6 +54,39 @@ void AExplorerChar::MoveHorizontal(float value)
 
 	const FVector Dir = FRotationMatrix(YawRot).GetUnitAxis(EAxis::Y);
 	AddMovementInput(Dir, value);
+}
+
+void AExplorerChar::SetCharMesh(FString Name)
+{
+	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+	if (arch)
+	{
+		if (arch->LoadModel(Name))
+		{
+			USkeletalMesh* m_Mesh = arch->QueryModel(Name).Get(nullptr);
+			if (m_Mesh)
+			{
+				GetMesh()->SetSkeletalMesh(m_Mesh);
+			}
+		}
+		else
+		{
+			arch->MeshLoadDelegate.BindUFunction(this, L"SetCharMesh_Async");
+		}
+	}
+}
+
+void AExplorerChar::SetCharMesh_Async(const TArray<FString>& Name)
+{
+	UGI_Archive* arch = Cast<UGI_Archive>(GetGameInstance());
+	if (arch)
+	{
+		USkeletalMesh* m_Mesh = arch->QueryModel(Name[0]).Get(nullptr);
+		if (m_Mesh)
+		{
+			GetMesh()->SetSkeletalMesh(m_Mesh);
+		}
+	}
 }
 
 // Called every frame

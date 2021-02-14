@@ -19,7 +19,6 @@ void UPauseMenu::RemoveSubMenu()
 {
 	CurrentMenu->RemoveFromViewport();
 	CurrentMenu = nullptr;
-	this->AddToViewport(0);
 	SetFocus();
 }
 
@@ -49,29 +48,36 @@ bool UPauseMenu::Initialize()
 
 void UPauseMenu::ViewPartyMenu()
 {
-	this->RemoveFromViewport();
-	PartyMenu->AddToViewport(1);
-	PartyMenu->SetVisibility(ESlateVisibility::Visible);
-	CurrentMenu = PartyMenu;
-	UpdateCurMenu();
+	if (PartyMenu)
+	{
+		PartyMenu->AddToViewport(1);
+		PartyMenu->SetVisibility(ESlateVisibility::Visible);
+		CurrentMenu = PartyMenu;
+		UpdateCurMenu();
+	}
+
 }
 
 void UPauseMenu::ViewSaveMenu()
 {
-	this->RemoveFromViewport();
-	SaveMenu->AddToViewport(1);
-	SaveMenu->SetVisibility(ESlateVisibility::Visible);
-	CurrentMenu = SaveMenu;
-	UpdateCurMenu();
+	if (SaveMenu)
+	{
+		SaveMenu->AddToViewport(1);
+		SaveMenu->SetVisibility(ESlateVisibility::Visible);
+		CurrentMenu = SaveMenu;
+		UpdateCurMenu();
+	}
 }
 
 void UPauseMenu::ViewInvenMenu()
 {
-	this->RemoveFromViewport();
-	InvenMenu->AddToViewport(1);
-	InvenMenu->SetVisibility(ESlateVisibility::Visible);
-	CurrentMenu = InvenMenu;
-	UpdateCurMenu();
+	if (InvenMenu)
+	{
+		InvenMenu->AddToViewport(1);
+		InvenMenu->SetVisibility(ESlateVisibility::Visible);
+		CurrentMenu = InvenMenu;
+		UpdateCurMenu();
+	}
 }
 
 void UPauseMenu::DisableFocus()

@@ -36,7 +36,6 @@ enum class EActionState : uint8
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
-	E_None		UMETA(DisplayName = "None"),
 	E_Bayonet	UMETA(DisplayName = "Bayonet"),
 	E_Halberd	UMETA(DisplayName = "Halberd"),
 	E_Hammer	UMETA(DisplayName = "Hammer"),
@@ -94,5 +93,13 @@ enum class EStatusType : uint8
 	EST_HP				UMETA(DisplayName = "HP"),
 	EST_SP				UMETA(DisplayName = "SP"),
 	EST_MAX				UMETA(DisplayName = "MAX"),
+};
+
+UENUM(BlueprintType)
+enum class ESexType : uint8
+{
+	EST_Male				UMETA(DisplayName = "Male"),
+	EST_Female				UMETA(DisplayName = "Female"),
+	EST_None				UMETA(DisplayName = "None"),
 };
 

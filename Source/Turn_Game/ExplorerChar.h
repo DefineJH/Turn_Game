@@ -26,6 +26,10 @@ protected:
 	void MoveVertical(float value);
 	void MoveHorizontal(float value);
 
+	void SetCharMesh(FString Name);
+
+	UFUNCTION()
+	void SetCharMesh_Async(const TArray<FString>& Name);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -40,4 +44,5 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	UCameraComponent* Camera;
 
+	FString CharName;
 };

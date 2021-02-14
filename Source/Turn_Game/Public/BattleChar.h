@@ -9,6 +9,7 @@
 
 class USkeletalMeshComponent;
 class UCapsuleComponent;
+class USceneComponent;
 struct FCharInfo;
 
 UENUM(BlueprintType)
@@ -41,6 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Mesh")
 		void SetCharMesh(USkeletalMesh* CharMesh);
 
+
 public:
 	/*
 	플레이어, 몬스터들에 iActionIndex를 넘겨줄경우, 그거에 맞는 패턴을 실행시키게함.
@@ -63,9 +65,14 @@ protected:
 	FActionInfo m_ActionInfo;
 public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Collision")
-		UCapsuleComponent*		CapsuleComp;
+	UCapsuleComponent*			CapsuleComp;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Mesh")
-		USkeletalMeshComponent*	MeshComp;
+	USkeletalMeshComponent*		MeshComp;
 
+	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Mesh")
+	USceneComponent* CameraAttach;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnyWhere, Category = "Mesh")
+	USceneComponent* AttackPoint;
 };
